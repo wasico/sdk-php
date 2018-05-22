@@ -3,9 +3,11 @@
 namespace Wasi\SDK;
 
 
+use Wasi\SDK\Drivers\Driver;
+
 class Configuration
 {
-    private $driver;
+    private static $driver;
 
     public static function set(array $params)
     {
@@ -13,5 +15,10 @@ class Configuration
         $class = "Wasi\SDK\Drivers\V".$v;
         $refl = new \ReflectionClass($class);
         $instance = $refl->newInstanceArgs([$params]);
+    }
+
+    public static function getDriver() : Driver
+    {
+        return static::$driver;
     }
 }
