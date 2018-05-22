@@ -15,6 +15,12 @@ class Configuration
         $class = "Wasi\SDK\Drivers\V".$v;
         $refl = new \ReflectionClass($class);
         $instance = $refl->newInstanceArgs([$params]);
+        self::setDriver($instance);
+    }
+
+    public static function setDriver(Driver $driver)
+    {
+        static::$driver = $driver;
     }
 
     public static function getDriver() : Driver
