@@ -15,5 +15,16 @@ class V1 implements Driver
         if(!isset($params['wasi_token'])) {
             throw new \Exception("wasi_token is required");
         }
+        $this->setIdCompany($params['id_company']);
+    }
+
+    public function setIdCompany(int $id_company)
+    {
+        $this->id_company = $id_company;
+    }
+
+    public function getIdCompany() : int
+    {
+        return $this->id_company;
     }
 }
