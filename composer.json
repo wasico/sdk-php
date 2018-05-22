@@ -1,0 +1,18 @@
+{
+    "name": "wasi/wasi-sdk-php",
+    "description": "Wasi SDK PHP",
+    "type": "SDK",
+    "license": "The Wasi SDK is open-sourced software licensed under the MIT license.",
+    "authors": [
+        {
+            "name": "Jose Wilson Capera Castaño",
+            "email": "josewilsoncc@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Wasi\\SDK\\" : "src/Wasi/SDK/"
+        }
+    }
+}
