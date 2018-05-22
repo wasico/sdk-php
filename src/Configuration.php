@@ -12,6 +12,7 @@ class Configuration
     public static function set(array $params)
     {
         $v = isset($params['v'])?$params['v']:1;
+        unset($params['v']);
         $class = "Wasi\SDK\Drivers\V".$v;
         if (class_exists($class)) {
             $refl = new \ReflectionClass($class);
