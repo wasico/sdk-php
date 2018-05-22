@@ -12,5 +12,8 @@ class V1 implements Driver
         if(!isset($params['id_company'])) {
             throw new \Exception("id_company is required");
         }
+        if(!isset($params['wasi_token'])) {
+            throw new \Exception("wasi_token is required");
+        }
     }
 }
