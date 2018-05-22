@@ -13,9 +13,13 @@ class Configuration
     {
         $v = isset($params['v'])?$params['v']:1;
         $class = "Wasi\SDK\Drivers\V".$v;
-        $refl = new \ReflectionClass($class);
-        $instance = $refl->newInstanceArgs([$params]);
-        self::setDriver($instance);
+        if (class_exists($class)) {
+            $refl = new \ReflectionClass($class);
+            $instance = $refl->newInstanceArgs([$params]);
+            self::setDriver($instance);
+        } else {
+            throw new \Exception("Class $class does not exist");
+        }
     }
 
     public static function setDriver(Driver $driver)
