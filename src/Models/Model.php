@@ -9,9 +9,13 @@ class Model
         return [];
     }
 
-    public static function where(string $attribute, $value) : Model
+    public function where(string $attribute, $value) : Model
     {
-        $return = new static();
-        return $return;
+        return $this;
+    }
+
+    public static function search() : Model
+    {
+        return new static();
     }
 }
