@@ -15,4 +15,14 @@ class Attribute
         $this->name = $name;
         $this->type = $type;
     }
+
+    public function getName() : string
+    {
+        return $this->name;
+    }
+
+    public function getType() : int
+    {
+        return $this->type;
+    }
 }
