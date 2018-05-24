@@ -8,4 +8,9 @@ class Model
     {
         return [];
     }
+
+    public static function where(string $attribute, $value)
+    {
+        return null;
+    }
 }
