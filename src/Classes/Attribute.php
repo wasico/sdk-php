@@ -1,5 +1,7 @@
 <?php
 
+namespace Wasi\SDK\Classes;
+
 class Attribute
 {
     const INTEGER = 0;
