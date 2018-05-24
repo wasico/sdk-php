@@ -10,6 +10,7 @@ class Property extends Model
     {
         return [
             new Attribute('id_property', Attribute::INTEGER),
+            new Attribute('id_company', Attribute::INTEGER),
             new Attribute('tittle', Attribute::STRING),
         ];
     }
