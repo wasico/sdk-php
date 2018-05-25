@@ -2,6 +2,8 @@
 
 namespace Wasi\SDK\Models;
 
+use Wasi\SDK\Classes\Attribute;
+
 class Model
 {
     private $where = [];
@@ -23,6 +25,14 @@ class Model
         $attributes = $this->standartAttributes();
         if(!isset($attributes[$attribute]))
             return true;
+        switch ($attributes[$attribute]->getType())
+        {
+            case Attribute::INTEGER:
+                break;
+            case Attribute::STRING:
+                break;
+        }
+        return false;
     }
 
     public static function search() : Model
