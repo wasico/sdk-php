@@ -9,9 +9,9 @@ class Property extends Model
     public function standartAttributes()
     {
         return [
-            new Attribute('id_property', Attribute::INTEGER),
-            new Attribute('id_company', Attribute::INTEGER),
-            new Attribute('tittle', Attribute::STRING),
+            'id_property' => new Attribute('id_property', Attribute::INTEGER),
+            'id_company'  => new Attribute('id_company', Attribute::INTEGER),
+            'tittle'      => new Attribute('tittle', Attribute::STRING),
         ];
     }
 }
