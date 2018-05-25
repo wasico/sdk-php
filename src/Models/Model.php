@@ -20,11 +20,11 @@ class Model
         return $this;
     }
 
-    public function checkAttribute(string $attribute, $value) : bool
+    public function checkAttribute(string $attribute, $value)
     {
         $attributes = $this->standartAttributes();
         if(!isset($attributes[$attribute]))
-            return true;
+            return;
         switch ($attributes[$attribute]->getType())
         {
             case Attribute::INTEGER:
@@ -36,7 +36,6 @@ class Model
                     throw new \Exception("The attribute $attribute must be a string");
                 break;
         }
-        return false;
     }
 
     public static function search() : Model
