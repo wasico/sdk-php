@@ -28,6 +28,8 @@ class Model
         switch ($attributes[$attribute]->getType())
         {
             case Attribute::INTEGER:
+                if(!is_integer($value))
+                    throw new \Exception("The attribute $attribute must be a integer");
                 break;
             case Attribute::STRING:
                 break;
