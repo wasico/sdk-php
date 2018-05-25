@@ -13,6 +13,7 @@ class Model
 
     public function where(string $attribute, $value) : Model
     {
+        $this->checkAttribute($attribute, $value);
         $this->where[$attribute] = $value;
         return $this;
     }
