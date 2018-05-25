@@ -17,6 +17,13 @@ class Model
         return $this;
     }
 
+    public function checkAttribute(string $attribute, $value) : bool
+    {
+        $attributes = $this->standartAttributes();
+        if(!isset($attributes[$attribute]))
+            return true;
+    }
+
     public static function search() : Model
     {
         return new static();
