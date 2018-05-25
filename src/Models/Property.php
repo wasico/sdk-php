@@ -11,7 +11,7 @@ class Property extends Model
         return [
             'id_property' => new Attribute('id_property', Attribute::INTEGER),
             'id_company'  => new Attribute('id_company', Attribute::INTEGER),
-            'tittle'      => new Attribute('tittle', Attribute::STRING),
+            'title'       => new Attribute('tittle', Attribute::STRING),
         ];
     }
 }
