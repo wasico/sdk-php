@@ -29,9 +29,11 @@ class Model
         {
             case Attribute::INTEGER:
                 if(!is_integer($value))
-                    throw new \Exception("The attribute $attribute must be a integer");
+                    throw new \Exception("The attribute $attribute must be an integer");
                 break;
             case Attribute::STRING:
+                if(!is_string($value))
+                    throw new \Exception("The attribute $attribute must be a string");
                 break;
         }
         return false;
