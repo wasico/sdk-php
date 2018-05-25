@@ -19,11 +19,3 @@ To use the bindings, use Composer's [autoload](https://getcomposer.org/doc/00-in
 ```php
 require_once('vendor/autoload.php');
 ```
-
-## Manual Installation
-
-If you do not wish to use Composer, you can download the [latest release](https://github.com/rhissnet/wasi-sdk-php/releases). Then, to use the bindings, include the `init.php` file.
-
-```php
-require_once('/path/to/wasi-sdk-php/init.php');
-```
