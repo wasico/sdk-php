@@ -13,7 +13,32 @@ class Model
         return [];
     }
 
-    public function where(string $attribute, $value) : Model
+    public static function __callStatic($name, $arguments)
+    {
+        switch ($name) {
+            case 'where':
+                $class = static::class;
+                return call_user_func_array("$class::whereStatic", $arguments);
+                break;
+        }
+    }
+
+    public function __call($name, $arguments)
+    {
+        switch ($name) {
+            case 'where':
+                return call_user_func_array([$this, 'whereInstance'], $arguments);
+                break;
+        }
+    }
+
+    public static function whereStatic(string $attribute, $value) : Model
+    {
+        $class = new static();
+        return $class->whereInstance($attribute, $value);
+    }
+
+    public function whereInstance(string $attribute, $value) : Model
     {
         $this->checkAttribute($attribute, $value);
         $this->where[$attribute] = $value;
