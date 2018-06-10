@@ -2,7 +2,7 @@
     "name": "wasico/sdk-php",
     "description": "Wasi SDK PHP",
     "type": "SDK",
-    "license": "The Wasi SDK is open-sourced software licensed under the MIT license.",
+    "license": "MIT",
     "authors": [
         {
             "name": "Jose Wilson Capera Castaño",
