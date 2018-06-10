@@ -1,5 +1,5 @@
 {
-    "name": "wasi/wasi-sdk-php",
+    "name": "wasico/sdk-php",
     "description": "Wasi SDK PHP",
     "type": "SDK",
     "license": "The Wasi SDK is open-sourced software licensed under the MIT license.",
