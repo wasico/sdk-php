@@ -22,6 +22,9 @@ class Property extends Model
             'region_label'     => new Attribute(Attribute::STRING, false),
             'id_city'          => new Attribute(Attribute::INTEGER),
             'city_label'       => new Attribute(Attribute::STRING, false),
+            'id_zone'          => new Attribute(Attribute::INTEGER),
+            'zone'             => new Attribute(Attribute::STRING),
+            'zone_label'       => new Attribute(Attribute::STRING, false),
             'title'            => new Attribute(Attribute::STRING),
         ];
     }
