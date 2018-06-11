@@ -25,6 +25,8 @@ class Property extends Model
             'id_zone'          => new Attribute(Attribute::INTEGER),
             'zone'             => new Attribute(Attribute::STRING),
             'zone_label'       => new Attribute(Attribute::STRING, false),
+            'id_currency'      => new Attribute(Attribute::INTEGER),
+            'iso_currency'     => new Attribute(Attribute::STRING, false),
             'title'            => new Attribute(Attribute::STRING),
         ];
     }
