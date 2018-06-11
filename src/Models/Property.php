@@ -57,6 +57,11 @@ class Property extends Model
             'visits'                   => new Attribute(Attribute::INTEGER),
             'created_at'               => new Attribute(Attribute::DATETIME, false),
             'updated_at'               => new Attribute(Attribute::DATETIME, false),
+            'reference'                => new Attribute(Attribute::STRING),
+            'comment'                  => new Attribute(Attribute::STRING),
+            'id_rents_type'            => new Attribute(Attribute::INTEGER),
+            'rents_type_label'         => new Attribute(Attribute::STRING, false),
+            'zip_code'                 => new Attribute(Attribute::STRING),
         ];
     }
 }
