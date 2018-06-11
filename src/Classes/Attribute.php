@@ -6,6 +6,7 @@ class Attribute
 {
     const INTEGER = 0;
     const STRING = 1;
+    const BOOLEAN = 2;
 
     private $type;
 

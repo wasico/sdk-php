@@ -12,6 +12,7 @@ class Property extends Model
             'id_property' => new Attribute(Attribute::INTEGER),
             'id_company'  => new Attribute(Attribute::INTEGER),
             'id_user'     => new Attribute(Attribute::INTEGER),
+            'for_sale'    => new Attribute(Attribute::BOOLEAN),
             'title'       => new Attribute(Attribute::STRING),
         ];
     }
