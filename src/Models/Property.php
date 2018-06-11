@@ -28,6 +28,9 @@ class Property extends Model
             'id_currency'      => new Attribute(Attribute::INTEGER),
             'iso_currency'     => new Attribute(Attribute::STRING, false),
             'title'            => new Attribute(Attribute::STRING),
+            'address'          => new Attribute(Attribute::STRING),
+            'area'             => new Attribute(Attribute::INTEGER),
+            'id_unit_area'     => new Attribute(Attribute::INTEGER),
         ];
     }
 }
