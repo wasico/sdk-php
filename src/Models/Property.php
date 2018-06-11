@@ -62,6 +62,11 @@ class Property extends Model
             'id_rents_type'            => new Attribute(Attribute::INTEGER),
             'rents_type_label'         => new Attribute(Attribute::STRING, false),
             'zip_code'                 => new Attribute(Attribute::STRING),
+            'id_availability'          => new Attribute(Attribute::INTEGER),
+            'availability_label'       => new Attribute(Attribute::STRING, false),
+            'id_publish_on_map'        => new Attribute(Attribute::INTEGER),
+            'publish_on_map_label'     => new Attribute(Attribute::STRING, false),
+            'label'                    => new Attribute(Attribute::STRING),
         ];
     }
 }
