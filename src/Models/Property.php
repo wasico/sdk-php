@@ -35,6 +35,12 @@ class Property extends Model
             'built_area'            => new Attribute(Attribute::INTEGER),
             'id_unit_built_area'    => new Attribute(Attribute::INTEGER),
             'unit_built_area_label' => new Attribute(Attribute::STRING, false),
+            'maintenance_fee'       => new Attribute(Attribute::INTEGER),
+            'sale_price'            => new Attribute(Attribute::INTEGER),
+            'rent_price'            => new Attribute(Attribute::INTEGER),
+            'bedrooms'              => new Attribute(Attribute::INTEGER),
+            'bathrooms'             => new Attribute(Attribute::INTEGER),
+            'garages'               => new Attribute(Attribute::INTEGER),
         ];
     }
 }
