@@ -18,6 +18,8 @@ class Property extends Model
             'id_property_type' => new Attribute(Attribute::INTEGER),
             'id_country'       => new Attribute(Attribute::INTEGER),
             'country_label'    => new Attribute(Attribute::STRING, false),
+            'id_region'        => new Attribute(Attribute::INTEGER),
+            'region_label'     => new Attribute(Attribute::STRING, false),
             'title'            => new Attribute(Attribute::STRING),
         ];
     }
