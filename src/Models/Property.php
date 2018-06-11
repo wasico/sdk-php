@@ -20,6 +20,8 @@ class Property extends Model
             'country_label'    => new Attribute(Attribute::STRING, false),
             'id_region'        => new Attribute(Attribute::INTEGER),
             'region_label'     => new Attribute(Attribute::STRING, false),
+            'id_city'          => new Attribute(Attribute::INTEGER),
+            'city_label'       => new Attribute(Attribute::STRING, false),
             'title'            => new Attribute(Attribute::STRING),
         ];
     }
