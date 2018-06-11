@@ -62,9 +62,4 @@ class Model
                 break;
         }
     }
-
-    public static function search() : Model
-    {
-        return new static();
-    }
 }
