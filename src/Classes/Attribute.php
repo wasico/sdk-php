@@ -9,10 +9,12 @@ class Attribute
     const BOOLEAN = 2;
 
     private $type;
+    private $editable;
 
-    public function __construct(int $type)
+    public function __construct(int $type, bool $editable = false)
     {
         $this->type = $type;
+        $this->editable = $editable;
     }
 
     public function getType() : int

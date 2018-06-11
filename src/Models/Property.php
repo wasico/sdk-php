@@ -16,6 +16,8 @@ class Property extends Model
             'for_rent'         => new Attribute(Attribute::BOOLEAN),
             'for_transfer'     => new Attribute(Attribute::BOOLEAN),
             'id_property_type' => new Attribute(Attribute::INTEGER),
+            'id_country'       => new Attribute(Attribute::INTEGER),
+            'country_label'    => new Attribute(Attribute::STRING, false),
             'title'            => new Attribute(Attribute::STRING),
         ];
     }
