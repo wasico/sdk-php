@@ -47,6 +47,12 @@ class Property extends Model
             'video'                    => new Attribute(Attribute::STRING),
             'id_property_condition'    => new Attribute(Attribute::INTEGER),
             'property_condition_label' => new Attribute(Attribute::STRING),
+            'id_status_on_page'        => new Attribute(Attribute::INTEGER),
+            'status_on_page_label'     => new Attribute(Attribute::STRING, false),
+            'map'                      => new Attribute(Attribute::STRING),
+            'latitude'                 => new Attribute(Attribute::STRING),
+            'longitude'                => new Attribute(Attribute::STRING),
+            'building_date'            => new Attribute(Attribute::STRING),
         ];
     }
 }
