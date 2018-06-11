@@ -53,6 +53,10 @@ class Property extends Model
             'latitude'                 => new Attribute(Attribute::STRING),
             'longitude'                => new Attribute(Attribute::STRING),
             'building_date'            => new Attribute(Attribute::STRING),
+            'network_share'            => new Attribute(Attribute::BOOLEAN),
+            'visits'                   => new Attribute(Attribute::INTEGER),
+            'created_at'               => new Attribute(Attribute::DATETIME, false),
+            'updated_at'               => new Attribute(Attribute::DATETIME, false),
         ];
     }
 }
