@@ -1,8 +1,10 @@
 <?php
 
-namespace Wasi\SDK\Drivers;
+namespace Wasi\SDK\Drivers\V1;
 
-class V1 implements Driver
+use Wasi\SDK\Drivers\Driver;
+
+class Core implements Driver
 {
     private $id_company;
     private $wasi_token;
