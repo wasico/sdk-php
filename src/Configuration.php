@@ -13,7 +13,7 @@ class Configuration
     {
         $v = isset($params['v'])?$params['v']:1;
         unset($params['v']);
-        $class = "Wasi\SDK\Drivers\V".$v;
+        $class = "Wasi\SDK\Drivers\V".$v."\Core";
         if (class_exists($class)) {
             $refl = new \ReflectionClass($class);
             $instance = $refl->newInstanceArgs([$params]);
