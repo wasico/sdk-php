@@ -60,6 +60,10 @@ class Model
                 if(!is_string($value))
                     throw new \Exception("The attribute $attribute must be a string");
                 break;
+            case Attribute::BOOLEAN:
+                if(!is_bool($value))
+                    throw new \Exception("The attribute $attribute must be a boolean");
+                break;
         }
     }
 }
