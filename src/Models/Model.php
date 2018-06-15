@@ -3,6 +3,7 @@
 namespace Wasi\SDK\Models;
 
 use Wasi\SDK\Classes\Attribute;
+use Wasi\SDK\Configuration;
 
 class Model
 {
@@ -65,5 +66,15 @@ class Model
                     throw new \Exception("The attribute $attribute must be a boolean");
                 break;
         }
+    }
+
+    public function getWhereArray() : array
+    {
+        return $this->where;
+    }
+
+    public function get()
+    {
+        return Configuration::getDriver()->get($this);
     }
 }
