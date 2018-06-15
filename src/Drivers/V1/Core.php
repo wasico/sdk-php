@@ -55,8 +55,12 @@ class Core implements Driver
                 break;
         }
         $where = $model->getWhereArray();
-        if(count($where)) {
-
-        }
+        $first = true;
+        foreach ($where as $key => $value)
+            if($first){
+                $first = false;
+                $url.="?$key=$value";
+            } else
+                $url.="&$key=$value";
     }
 }
