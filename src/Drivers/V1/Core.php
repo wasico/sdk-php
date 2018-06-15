@@ -3,6 +3,7 @@
 namespace Wasi\SDK\Drivers\V1;
 
 use Wasi\SDK\Drivers\Driver;
+use Wasi\SDK\Models\Model;
 
 class Core implements Driver
 {
@@ -39,5 +40,23 @@ class Core implements Driver
     public function getWasiToken() : string
     {
         return $this->wasi_token;
+    }
+
+    public static function url($path = '')
+    {
+        return 'api.wasi.co/v1/'.$path;
+    }
+
+    public function get(Model $model)
+    {
+        switch (get_class($model)) {
+            case \Wasi\SDK\Models\Property::class:
+                $url = self::url('property/search');
+                break;
+        }
+        $where = $model->getWhereArray();
+        if(count($where)) {
+
+        }
     }
 }
