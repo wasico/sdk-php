@@ -44,7 +44,7 @@ class Core implements Driver
 
     public static function url($path = '')
     {
-        return 'api.wasi.co/v1/'.$path;
+        return 'https://api.wasi.co/v1/'.$path;
     }
 
     public function get(Model $model)
@@ -62,5 +62,13 @@ class Core implements Driver
                 $url.="?$key=$value";
             } else
                 $url.="&$key=$value";
+        $this->request($url);
+    }
+
+    public function request($url)
+    {
+        $json = file_get_contents($url);
+        $return = json_decode($json);
+        die(var_dump($return));
     }
 }
