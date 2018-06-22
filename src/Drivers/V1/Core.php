@@ -7,6 +7,8 @@ use Wasi\SDK\Models\Model;
 
 class Core implements Driver
 {
+    const STATUS_ERROR = 'error';
+
     private $id_company;
     private $wasi_token;
 
@@ -69,6 +71,9 @@ class Core implements Driver
     {
         $json = file_get_contents($url);
         $return = json_decode($json);
+        if($return->status == Core::STATUS_ERROR) {
+            throw new \Exception($return->message);
+        }
         die(var_dump($return));
     }
 }
