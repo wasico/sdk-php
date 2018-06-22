@@ -7,6 +7,7 @@ use Wasi\SDK\Models\Model;
 
 class Core implements Driver
 {
+    const STATUS_SUCCESS = 'success';
     const STATUS_ERROR = 'error';
 
     private $id_company;
@@ -44,9 +45,9 @@ class Core implements Driver
         return $this->wasi_token;
     }
 
-    public static function url($path = '')
+    public function url($path = '')
     {
-        return 'https://api.wasi.co/v1/'.$path;
+        return "https://api.wasi.co/v1/$path?id_company={$this->id_company}&wasi_token={$this->wasi_token}";
     }
 
     public function get(Model $model)
@@ -57,13 +58,8 @@ class Core implements Driver
                 break;
         }
         $where = $model->getWhereArray();
-        $first = true;
         foreach ($where as $key => $value)
-            if($first){
-                $first = false;
-                $url.="?$key=$value";
-            } else
-                $url.="&$key=$value";
+            $url.="&$key=$value";
         $this->request($url);
     }
 
