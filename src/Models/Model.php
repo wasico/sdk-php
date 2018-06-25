@@ -30,25 +30,33 @@ class Model
     public function __call($name, $arguments)
     {
         switch ($name) {
+            case 'find':
+                return call_user_func_array([$this, 'findInstance'], $arguments);
+                break;
             case 'where':
                 return call_user_func_array([$this, 'whereInstance'], $arguments);
                 break;
         }
     }
 
-    public static function findStatic($id) : Model
+    private static function findStatic(string $id)
     {
         $class = new static();
-        return $class->find($id);
+        return $class->findInstance($id);
     }
 
-    public static function whereStatic(string $attribute, $value) : Model
+    private function findInstance(string $id)
+    {
+        return Configuration::getDriver()->find($this, $id);
+    }
+
+    private static function whereStatic(string $attribute, $value) : Model
     {
         $class = new static();
         return $class->whereInstance($attribute, $value);
     }
 
-    public function whereInstance(string $attribute, $value) : Model
+    private function whereInstance(string $attribute, $value) : Model
     {
         $this->checkAttribute($attribute, $value);
         $this->where[$attribute] = $value;
@@ -80,11 +88,6 @@ class Model
     public function getWhereArray() : array
     {
         return $this->where;
-    }
-
-    public function find(string $id)
-    {
-        return Configuration::getDriver()->find($this, $id);
     }
 
     public function get()
