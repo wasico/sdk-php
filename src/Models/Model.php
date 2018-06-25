@@ -16,9 +16,12 @@ class Model
 
     public static function __callStatic($name, $arguments)
     {
+        $class = static::class;
         switch ($name) {
+            case 'find':
+                return call_user_func_array("$class::findStatic", $arguments);
+                break;
             case 'where':
-                $class = static::class;
                 return call_user_func_array("$class::whereStatic", $arguments);
                 break;
         }
@@ -31,6 +34,12 @@ class Model
                 return call_user_func_array([$this, 'whereInstance'], $arguments);
                 break;
         }
+    }
+
+    public static function findStatic($id) : Model
+    {
+        $class = new static();
+        return $class->find($id);
     }
 
     public static function whereStatic(string $attribute, $value) : Model
@@ -71,6 +80,11 @@ class Model
     public function getWhereArray() : array
     {
         return $this->where;
+    }
+
+    public function find(string $id)
+    {
+        return Configuration::getDriver()->find($this, $id);
     }
 
     public function get()
