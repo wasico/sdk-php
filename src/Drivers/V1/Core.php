@@ -50,17 +50,33 @@ class Core implements Driver
         return "https://api.wasi.co/v1/$path?id_company={$this->id_company}&wasi_token={$this->wasi_token}";
     }
 
+    public function find(Model $model, string $id)
+    {
+        switch (get_class($model)) {
+            case \Wasi\SDK\Models\Property::class:
+                $url = 'property/get/';
+                break;
+            default:
+                $url = '';
+                break;
+        }
+        return $this->request(self::url($url.$id));
+    }
+
     public function get(Model $model)
     {
         switch (get_class($model)) {
             case \Wasi\SDK\Models\Property::class:
                 $url = self::url('property/search');
                 break;
+            default:
+                $url = '';
+                break;
         }
         $where = $model->getWhereArray();
         foreach ($where as $key => $value)
             $url.="&$key=$value";
-        $this->request($url);
+        return $this->request($url);
     }
 
     public function request($url)
@@ -70,6 +86,6 @@ class Core implements Driver
         if($return->status == Core::STATUS_ERROR) {
             throw new \Exception($return->message);
         }
-        die(var_dump($return));
+        return $return;
     }
 }
