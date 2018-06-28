@@ -34,9 +34,10 @@ class Model
         return $class->findInstance($id);
     }
 
-    private function findInstance(string $id)
+    public static function getStatic()
     {
-        return Configuration::getDriver()->find($this, $id);
+        $class = new static();
+        return $class->getInstance();
     }
 
     private static function whereStatic(string $attribute, $value) : Model
@@ -45,11 +46,9 @@ class Model
         return $class->whereInstance($attribute, $value);
     }
 
-    private function whereInstance(string $attribute, $value) : Model
+    private function findInstance(string $id)
     {
-        $this->checkAttribute($attribute, $value);
-        $this->where[$attribute] = $value;
-        return $this;
+        return Configuration::getDriver()->find($this, $id);
     }
 
     public function getInstance()
@@ -57,10 +56,11 @@ class Model
         return Configuration::getDriver()->get($this);
     }
 
-    public static function getStatic()
+    private function whereInstance(string $attribute, $value) : Model
     {
-        $class = new static();
-        return $class->getInstance();
+        $this->checkAttribute($attribute, $value);
+        $this->where[$attribute] = $value;
+        return $this;
     }
 
     public function checkAttribute(string $attribute, $value)
