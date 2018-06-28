@@ -18,45 +18,46 @@ class Model
 
     public static function __callStatic($name, $arguments)
     {
+        //die(static::class."::static".ucfirst($name));
         if(in_array($name, self::$standardMethods))
-            return call_user_func_array(static::class."::{$name}Static", $arguments);
+            return call_user_func_array(static::class."::static".ucfirst($name), $arguments);
     }
 
     public function __call($name, $arguments)
     {
         if(in_array($name, self::$standardMethods))
-            return call_user_func_array([$this, "{$name}Instance"], $arguments);
+            return call_user_func_array([$this, "instance".ucfirst($name)], $arguments);
     }
 
-    private static function findStatic(string $id)
+    private static function staticFind(string $id)
     {
         $class = new static();
-        return $class->findInstance($id);
+        return $class->instanceFind($id);
     }
 
-    public static function getStatic()
+    private static function staticGet()
     {
         $class = new static();
-        return $class->getInstance();
+        return $class->instanceGet();
     }
 
-    private static function whereStatic(string $attribute, $value) : Model
+    private static function staticWhere(string $attribute, $value) : Model
     {
         $class = new static();
-        return $class->whereInstance($attribute, $value);
+        return $class->instanceWhere($attribute, $value);
     }
 
-    private function findInstance(string $id)
+    private function instanceFind(string $id)
     {
         return Configuration::getDriver()->find($this, $id);
     }
 
-    public function getInstance()
+    private function instanceGet()
     {
         return Configuration::getDriver()->get($this);
     }
 
-    private function whereInstance(string $attribute, $value) : Model
+    private function instanceWhere(string $attribute, $value) : Model
     {
         $this->checkAttribute($attribute, $value);
         $this->where[$attribute] = $value;
