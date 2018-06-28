@@ -15,6 +15,10 @@ class User extends Model
             'has_profile' => new Attribute(Attribute::BOOLEAN, false),
             'first_name'  => new Attribute(Attribute::STRING),
             'last_name'   => new Attribute(Attribute::STRING),
+            'phone'       => new Attribute(Attribute::STRING),
+            'cell_phone'  => new Attribute(Attribute::STRING),
+            'address'     => new Attribute(Attribute::STRING),
+            'photo'       => new Attribute(Attribute::STRING),
         ];
     }
 }
