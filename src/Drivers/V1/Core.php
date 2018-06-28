@@ -72,12 +72,16 @@ class Core implements Driver
     {
         switch (get_class($model)) {
             case Property::class:
-                $url = self::url('property/search');
+                $url = 'property/search';
+                break;
+            case User::class:
+                $url = 'user/all-users';
                 break;
             default:
                 $url = '';
                 break;
         }
+        $url = self::url($url);
         $where = $model->getWhereArray();
         foreach ($where as $key => $value)
             $url.="&$key=$value";
