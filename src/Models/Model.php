@@ -16,33 +16,14 @@ class Model
 
     public static function __callStatic($name, $arguments)
     {
-        $class = static::class;
-        switch ($name) {
-            case 'get':
-                return call_user_func_array("$class::getStatic", $arguments);
-                break;
-            case 'find':
-                return call_user_func_array("$class::findStatic", $arguments);
-                break;
-            case 'where':
-                return call_user_func_array("$class::whereStatic", $arguments);
-                break;
-        }
+        if(in_array($name, ['get', 'find', 'where']))
+            return call_user_func_array(static::class."::{$name}Static", $arguments);
     }
 
     public function __call($name, $arguments)
     {
-        switch ($name) {
-            case 'get':
-                return call_user_func_array([$this, 'getInstance'], $arguments);
-                break;
-            case 'find':
-                return call_user_func_array([$this, 'findInstance'], $arguments);
-                break;
-            case 'where':
-                return call_user_func_array([$this, 'whereInstance'], $arguments);
-                break;
-        }
+        if(in_array($name, ['get', 'find', 'where']))
+            return call_user_func_array([$this, "{$name}Instance"], $arguments);
     }
 
     private static function findStatic(string $id)
