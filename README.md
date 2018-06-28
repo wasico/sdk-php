@@ -20,7 +20,7 @@ To use the bindings, use Composer's [autoload](https://getcomposer.org/doc/00-in
 require_once('vendor/autoload.php');
 ```
 
-Or add manually for constant update:
+Or add manually to your composer.json file for constant update
 ```php
 "wasico/sdk-php": ">=0.0.1"
 ```
