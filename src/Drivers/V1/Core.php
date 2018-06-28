@@ -4,6 +4,8 @@ namespace Wasi\SDK\Drivers\V1;
 
 use Wasi\SDK\Drivers\Driver;
 use Wasi\SDK\Models\Model;
+use Wasi\SDK\Models\Property;
+use Wasi\SDK\Models\User;
 
 class Core implements Driver
 {
@@ -53,8 +55,11 @@ class Core implements Driver
     public function find(Model $model, string $id)
     {
         switch (get_class($model)) {
-            case \Wasi\SDK\Models\Property::class:
+            case Property::class:
                 $url = 'property/get/';
+                break;
+            case User::class:
+                $url = 'user/get/';
                 break;
             default:
                 $url = '';
@@ -66,7 +71,7 @@ class Core implements Driver
     public function get(Model $model)
     {
         switch (get_class($model)) {
-            case \Wasi\SDK\Models\Property::class:
+            case Property::class:
                 $url = self::url('property/search');
                 break;
             default:
