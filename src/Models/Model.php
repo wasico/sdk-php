@@ -18,6 +18,9 @@ class Model
     {
         $class = static::class;
         switch ($name) {
+            case 'get':
+                return call_user_func_array("$class::getStatic", $arguments);
+                break;
             case 'find':
                 return call_user_func_array("$class::findStatic", $arguments);
                 break;
@@ -30,6 +33,9 @@ class Model
     public function __call($name, $arguments)
     {
         switch ($name) {
+            case 'get':
+                return call_user_func_array([$this, 'getInstance'], $arguments);
+                break;
             case 'find':
                 return call_user_func_array([$this, 'findInstance'], $arguments);
                 break;
@@ -63,6 +69,17 @@ class Model
         return $this;
     }
 
+    public function getInstance()
+    {
+        return Configuration::getDriver()->get($this);
+    }
+
+    public static function getStatic()
+    {
+        $class = new static();
+        return $class->getInstance();
+    }
+
     public function checkAttribute(string $attribute, $value)
     {
         $attributes = $this->standartAttributes();
@@ -88,10 +105,5 @@ class Model
     public function getWhereArray() : array
     {
         return $this->where;
-    }
-
-    public function get()
-    {
-        return Configuration::getDriver()->get($this);
     }
 }
