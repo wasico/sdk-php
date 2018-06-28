@@ -9,6 +9,8 @@ class Model
 {
     private $where = [];
 
+    private static $standardMethods = ['get', 'find', 'where'];
+
     public function standartAttributes()
     {
         return [];
@@ -16,13 +18,13 @@ class Model
 
     public static function __callStatic($name, $arguments)
     {
-        if(in_array($name, ['get', 'find', 'where']))
+        if(in_array($name, self::$standardMethods))
             return call_user_func_array(static::class."::{$name}Static", $arguments);
     }
 
     public function __call($name, $arguments)
     {
-        if(in_array($name, ['get', 'find', 'where']))
+        if(in_array($name, self::$standardMethods))
             return call_user_func_array([$this, "{$name}Instance"], $arguments);
     }
 
