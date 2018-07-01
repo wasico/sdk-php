@@ -21,8 +21,9 @@ class Customer extends Model
             'id_client_status' => new Attribute(Attribute::INTEGER),
             'first_name'       => new Attribute(Attribute::STRING),
             'last_name'        => new Attribute(Attribute::STRING),
-            'birthday'         => new Attribute(Attribute::STRING),
+            'birthday'         => new Attribute(Attribute::DATE),
             'identification'   => new Attribute(Attribute::STRING),
+            'email'            => new Attribute(Attribute::EMAIL),
         ];
     }
 }
