@@ -3,6 +3,7 @@
 namespace Wasi\SDK\Drivers\V1;
 
 use Wasi\SDK\Drivers\Driver;
+use Wasi\SDK\Models\Customer;
 use Wasi\SDK\Models\Model;
 use Wasi\SDK\Models\Property;
 use Wasi\SDK\Models\User;
@@ -60,6 +61,9 @@ class Core implements Driver
                 break;
             case User::class:
                 $url = 'user/get/';
+                break;
+            case Customer::class:
+                $url = 'client/get/';
                 break;
             default:
                 $url = '';
