@@ -81,6 +81,9 @@ class Core implements Driver
             case User::class:
                 $url = 'user/all-users';
                 break;
+            case Customer::class:
+                $url = 'client/search';
+                break;
             default:
                 $url = '';
                 break;
