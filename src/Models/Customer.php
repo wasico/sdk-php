@@ -24,6 +24,15 @@ class Customer extends Model
             'birthday'         => new Attribute(Attribute::DATE),
             'identification'   => new Attribute(Attribute::STRING),
             'email'            => new Attribute(Attribute::EMAIL),
+            'phone'            => new Attribute(Attribute::EMAIL),
+            'cell_phone'       => new Attribute(Attribute::EMAIL),
+            'address'          => new Attribute(Attribute::EMAIL),
+            'query'            => new Attribute(Attribute::EMAIL),
+            'comment'          => new Attribute(Attribute::EMAIL),
+            'reference'        => new Attribute(Attribute::EMAIL),
+            'send_information' => new Attribute(Attribute::BOOLEAN),
+            'created_at'       => new Attribute(Attribute::DATETIME, false),
+            'updated_at'       => new Attribute(Attribute::DATETIME, false),
         ];
     }
 }
