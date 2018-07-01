@@ -48,13 +48,13 @@ class Model
         return $class->instanceFind($id);
     }
 
-    private static function staticSkip(integer $skip)
+    private static function staticSkip(int $skip)
     {
         $class = new static();
         return $class->instanceSkip($skip);
     }
 
-    private static function staticTake(integer $take)
+    private static function staticTake(int $take)
     {
         $class = new static();
         return $class->instanceSkip($take);
@@ -84,14 +84,16 @@ class Model
         return Configuration::getDriver()->get($this);
     }
 
-    private function instanceSkip(integer $skip)
+    private function instanceSkip(int $skip)
     {
-        return $this->skip = $skip;
+        $this->skip = $skip;
+        return $this;
     }
 
-    private function instanceTake(integer $take)
+    private function instanceTake(int $take)
     {
-        return $this->take = $take;
+        $this->take = $take;
+        return $this;
     }
 
     private function instanceWhere(string $attribute, $value) : Model
@@ -127,6 +129,16 @@ class Model
                     throw new \Exception("The attribute $attribute must be a boolean");
                 break;
         }
+    }
+
+    public function getSkip()
+    {
+        return $this->skip;
+    }
+
+    public function getTake()
+    {
+        return $this->take;
     }
 
     public function getWhereArray() : array
