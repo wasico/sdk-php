@@ -9,6 +9,7 @@ class Attribute
     const BOOLEAN = 2;
     const DATE = 3;
     const DATETIME = 4;
+    const EMAIL = 5;
 
     private $type;
     private $editable;
