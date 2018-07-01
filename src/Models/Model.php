@@ -9,16 +9,21 @@ class Model
 {
     private $where = [];
 
-    private static $standardMethods = ['get', 'find', 'where'];
+    private static $standardMethods = ['get', 'find', 'skip', 'take', 'where'];
 
     public function standartAttributes()
     {
         return [];
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Model's calls
+    |--------------------------------------------------------------------------
+    */
+
     public static function __callStatic($name, $arguments)
     {
-        //die(static::class."::static".ucfirst($name));
         if(in_array($name, self::$standardMethods))
             return call_user_func_array(static::class."::static".ucfirst($name), $arguments);
     }
@@ -28,6 +33,12 @@ class Model
         if(in_array($name, self::$standardMethods))
             return call_user_func_array([$this, "instance".ucfirst($name)], $arguments);
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Models standard methods
+    |--------------------------------------------------------------------------
+    */
 
     private static function staticFind(string $id)
     {
@@ -63,6 +74,12 @@ class Model
         $this->where[$attribute] = $value;
         return $this;
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Other methods
+    |--------------------------------------------------------------------------
+    */
 
     public function checkAttribute(string $attribute, $value)
     {
