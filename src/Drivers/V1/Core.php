@@ -89,6 +89,8 @@ class Core implements Driver
                 break;
         }
         $url = self::url($url);
+        $url = $model->getSkip() ? $url.'&skip='.$model->getSkip() : $url;
+        $url = $model->getTake() ? $url.'&take='.$model->getTake() : $url;
         $where = $model->getWhereArray();
         foreach ($where as $key => $value)
             $url.="&$key=$value";
