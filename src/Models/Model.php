@@ -7,9 +7,11 @@ use Wasi\SDK\Configuration;
 
 class Model
 {
-    private $where = [];
+    private static $standardMethods = ['find', 'get', 'skip', 'take', 'where'];
 
-    private static $standardMethods = ['get', 'find', 'skip', 'take', 'where'];
+    private $where = [];
+    private $skip = null;
+    private $take = null;
 
     public function standartAttributes()
     {
@@ -46,6 +48,18 @@ class Model
         return $class->instanceFind($id);
     }
 
+    private static function staticSkip(integer $skip)
+    {
+        $class = new static();
+        return $class->instanceSkip($skip);
+    }
+
+    private static function staticTake(integer $take)
+    {
+        $class = new static();
+        return $class->instanceSkip($take);
+    }
+
     private static function staticGet()
     {
         $class = new static();
@@ -58,6 +72,8 @@ class Model
         return $class->instanceWhere($attribute, $value);
     }
 
+    /*-----------------------------------------------------------------------*/
+
     private function instanceFind(string $id)
     {
         return Configuration::getDriver()->find($this, $id);
@@ -66,6 +82,16 @@ class Model
     private function instanceGet()
     {
         return Configuration::getDriver()->get($this);
+    }
+
+    private function instanceSkip(integer $skip)
+    {
+        return $this->skip = $skip;
+    }
+
+    private function instanceTake(integer $take)
+    {
+        return $this->take = $take;
     }
 
     private function instanceWhere(string $attribute, $value) : Model
