@@ -18,14 +18,16 @@ class Core implements Driver
 
     function __construct(array $params = [])
     {
-        if(!isset($params['id_company'])) {
-            throw new \Exception("id_company is required");
+        if((!isset($params['public_access']) || !$params['public_access'])) {
+            if (!isset($params['id_company'])) {
+                throw new \Exception("id_company is required");
+            }
+            if (!isset($params['wasi_token'])) {
+                throw new \Exception("wasi_token is required");
+            }
+            $this->setIdCompany($params['id_company']);
+            $this->setWasiToken($params['wasi_token']);
         }
-        if(!isset($params['wasi_token'])) {
-            throw new \Exception("wasi_token is required");
-        }
-        $this->setIdCompany($params['id_company']);
-        $this->setWasiToken($params['wasi_token']);
     }
 
     public function setIdCompany(int $id_company)
@@ -50,7 +52,10 @@ class Core implements Driver
 
     public function url($path = '')
     {
-        return "https://api.wasi.co/v1/$path?id_company={$this->id_company}&wasi_token={$this->wasi_token}";
+        $base = "https://api.wasi.co/v1/$path?source=sdk";
+        if($this->id_company && $this->wasi_token)
+            return "$base&id_company={$this->id_company}&wasi_token={$this->wasi_token}";
+        return $base;
     }
 
     public function find(Model $model, string $id)
@@ -69,7 +74,14 @@ class Core implements Driver
                 $url = '';
                 break;
         }
-        return $this->request(self::url($url.$id));
+        $url = self::url($url.$id);
+        $data = $model->getDataArray();
+        foreach ($data as $key => $value)
+            $url.="&$key=$value";
+        $where = $model->getWhereArray();
+        foreach ($where as $key => $value)
+            $url.="&$key=$value";
+        return $this->request($url);
     }
 
     public function get(Model $model)
@@ -91,6 +103,9 @@ class Core implements Driver
         $url = self::url($url);
         $url = $model->getSkip() ? $url.'&skip='.$model->getSkip() : $url;
         $url = $model->getTake() ? $url.'&take='.$model->getTake() : $url;
+        $data = $model->getDataArray();
+        foreach ($data as $key => $value)
+            $url.="&$key=$value";
         $where = $model->getWhereArray();
         foreach ($where as $key => $value)
             $url.="&$key=$value";
