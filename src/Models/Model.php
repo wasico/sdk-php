@@ -7,8 +7,9 @@ use Wasi\SDK\Configuration;
 
 class Model
 {
-    private static $standardMethods = ['find', 'get', 'skip', 'take', 'where'];
+    private static $standardMethods = ['data', 'find', 'get', 'skip', 'take', 'where'];
 
+    private $data = [];
     private $where = [];
     private $skip = null;
     private $take = null;
@@ -42,6 +43,12 @@ class Model
     |--------------------------------------------------------------------------
     */
 
+    private static function staticData(array $data)
+    {
+        $class = new static();
+        return $class->instanceData($data);
+    }
+
     private static function staticFind(string $id)
     {
         $class = new static();
@@ -73,6 +80,12 @@ class Model
     }
 
     /*-----------------------------------------------------------------------*/
+
+    private function instanceData(array $data)
+    {
+        $this->data = $data;
+        return $this;
+    }
 
     private function instanceFind(string $id)
     {
@@ -129,6 +142,11 @@ class Model
                     throw new \Exception("The attribute $attribute must be a boolean");
                 break;
         }
+    }
+
+    public function getDataArray() : array
+    {
+        return $this->data;
     }
 
     public function getSkip()
