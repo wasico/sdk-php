@@ -6,6 +6,7 @@ use Wasi\SDK\Drivers\Driver;
 use Wasi\SDK\Models\Customer;
 use Wasi\SDK\Models\CustomerType;
 use Wasi\SDK\Models\Model;
+use Wasi\SDK\Models\Portal;
 use Wasi\SDK\Models\Property;
 use Wasi\SDK\Models\User;
 
@@ -99,6 +100,9 @@ class Core implements Driver
                 break;
             case CustomerType::class:
                 $url = 'client-type/all';
+                break;
+            case Portal::class:
+                $url = 'portal/all';
                 break;
             default:
                 $url = '';
