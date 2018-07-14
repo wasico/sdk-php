@@ -115,6 +115,8 @@ class Core implements Driver
         $url = self::url($url);
         $url = $model->getSkip() ? $url.'&skip='.$model->getSkip() : $url;
         $url = $model->getTake() ? $url.'&take='.$model->getTake() : $url;
+        $url = $model->getOrderBy() ? $url.'&order_by='.$model->getOrderBy() : $url;
+        $url = $model->getOrder() ? $url.'&order='.$model->getOrder() : $url;
         $data = $model->getDataArray();
         foreach ($data as $key => $value)
             $url.="&$key=$value";
