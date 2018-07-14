@@ -7,12 +7,14 @@ use Wasi\SDK\Configuration;
 
 class Model
 {
-    private static $standardMethods = ['data', 'find', 'get', 'skip', 'take', 'where'];
+    private static $standardMethods = ['data', 'find', 'get', 'order', 'orderBy', 'skip', 'take', 'where'];
 
     private $data = [];
     private $where = [];
     private $skip = null;
     private $take = null;
+    private $order = null;
+    private $orderBy = null;
 
     public function standartAttributes()
     {
@@ -55,6 +57,12 @@ class Model
         return $class->instanceFind($id);
     }
 
+    private static function staticGet()
+    {
+        $class = new static();
+        return $class->instanceGet();
+    }
+
     private static function staticSkip(int $skip)
     {
         $class = new static();
@@ -67,10 +75,10 @@ class Model
         return $class->instanceSkip($take);
     }
 
-    private static function staticGet()
+    private static function staticOrderBy(string $column, string $order)
     {
         $class = new static();
-        return $class->instanceGet();
+        return $class->instanceOrderBy($column, $order);
     }
 
     private static function staticWhere(string $attribute, $value) : Model
@@ -106,6 +114,13 @@ class Model
     private function instanceTake(int $take)
     {
         $this->take = $take;
+        return $this;
+    }
+
+    private function instanceOrderBy(string $column, string $order)
+    {
+        $this->orderBy = $column;
+        $this->order = $order;
         return $this;
     }
 
@@ -157,6 +172,16 @@ class Model
     public function getTake()
     {
         return $this->take;
+    }
+
+    public function getOrderBy()
+    {
+        return $this->orderBy;
+    }
+
+    public function getOrder()
+    {
+        return $this->order;
     }
 
     public function getWhereArray() : array
