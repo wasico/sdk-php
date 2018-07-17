@@ -50,6 +50,12 @@ class Model
         return isset($this->attributes[$name]) ? $this->attributes[$name] : null;
     }
 
+    public function __set($name, $value)
+    {
+        $this->checkAttribute($name, $value);
+        $this->attributes[$name] = $value;
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Models standard methods
