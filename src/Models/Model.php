@@ -45,6 +45,11 @@ class Model
             return call_user_func_array([$this, "instance".ucfirst($name)], $arguments);
     }
 
+    public function __get($name)
+    {
+        return isset($this->attributes[$name]) ? $this->attributes[$name] : null;
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Models standard methods
