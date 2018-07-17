@@ -9,12 +9,18 @@ class Model
 {
     private static $standardMethods = ['data', 'find', 'get', 'order', 'orderBy', 'skip', 'take', 'where'];
 
+    private $attributes = [];
     private $data = [];
     private $where = [];
     private $skip = null;
     private $take = null;
     private $order = null;
     private $orderBy = null;
+
+    public function __construct(array $attributes = [])
+    {
+        $this->attributes = $attributes;
+    }
 
     public function standartAttributes()
     {
