@@ -63,7 +63,8 @@ class Core implements Driver
 
     public function find(Model $model, string $id)
     {
-        switch (get_class($model)) {
+        $class = get_class($model);
+        switch ($class) {
             case Property::class:
                 $url = 'property/get/';
                 break;
@@ -84,7 +85,8 @@ class Core implements Driver
         $where = $model->getWhereArray();
         foreach ($where as $key => $value)
             $url.="&$key=$value";
-        return $this->request($url);
+        $request = $this->request($url);
+        return new $class($request);
     }
 
     public function get(Model $model)
@@ -129,8 +131,8 @@ class Core implements Driver
     public function request($url)
     {
         $json = file_get_contents($url);
-        $return = json_decode($json);
-        if($return->status == Core::STATUS_ERROR) {
+        $return = json_decode($json, true);
+        if($return['status'] == Core::STATUS_ERROR) {
             throw new \Exception($return->message);
         }
         return $return;
