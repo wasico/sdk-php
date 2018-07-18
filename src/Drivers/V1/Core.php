@@ -89,9 +89,10 @@ class Core implements Driver
         return new $class($request);
     }
 
-    public function get(Model $model)
+    public function preGet(Model $model)
     {
-        switch (get_class($model)) {
+        $class = get_class($model);
+        switch ($class) {
             case Property::class:
                 $url = 'property/search';
                 break;
@@ -125,7 +126,21 @@ class Core implements Driver
         $where = $model->getWhereArray();
         foreach ($where as $key => $value)
             $url.="&$key=$value";
-        return $this->request($url);
+        $request = $this->request($url);
+        $total = (int) $request['total'];
+        $elements = [];
+        foreach ($request as $key => $value)
+            if(is_numeric($key))
+                $elements[] = new $class($value);
+        return [
+            'total' => $total,
+            'elements' => $elements,
+        ];
+    }
+
+    public function get(Model $model)
+    {
+        return $this->preGet($model)['elements'];
     }
 
     public function request($url)
