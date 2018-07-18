@@ -138,8 +138,14 @@ class Core implements Driver
         ];
     }
 
+    public function count(Model $model)
+    {
+        return $this->preGet($model)['total'];
+    }
+
     public function get(Model $model)
     {
+        dd($this->preGet($model));
         return $this->preGet($model)['elements'];
     }
 
