@@ -7,7 +7,7 @@ use Wasi\SDK\Configuration;
 
 class Model
 {
-    private static $standardMethods = ['data', 'find', 'get', 'order', 'orderBy', 'skip', 'take', 'where'];
+    private static $standardMethods = ['count', 'data', 'find', 'get', 'order', 'orderBy', 'skip', 'take', 'where'];
 
     private $attributes = [];
     private $data = [];
@@ -62,6 +62,12 @@ class Model
     |--------------------------------------------------------------------------
     */
 
+    private static function staticCount()
+    {
+        $class = new static();
+        return$class->instanceCount();
+    }
+
     private static function staticData(array $data)
     {
         $class = new static();
@@ -105,6 +111,11 @@ class Model
     }
 
     /*-----------------------------------------------------------------------*/
+
+    private function instanceCount()
+    {
+        return Configuration::getDriver()->count($this);
+    }
 
     private function instanceData(array $data)
     {
