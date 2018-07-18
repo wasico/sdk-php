@@ -145,7 +145,6 @@ class Core implements Driver
 
     public function get(Model $model)
     {
-        dd($this->preGet($model));
         return $this->preGet($model)['elements'];
     }
 
