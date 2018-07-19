@@ -3,12 +3,14 @@
 namespace Wasi\SDK\Drivers\V1;
 
 use Wasi\SDK\Drivers\Driver;
+use Wasi\SDK\Models\Banner;
 use Wasi\SDK\Models\Customer;
 use Wasi\SDK\Models\CustomerType;
 use Wasi\SDK\Models\Model;
 use Wasi\SDK\Models\Portal;
 use Wasi\SDK\Models\Property;
 use Wasi\SDK\Models\PropertyType;
+use Wasi\SDK\Models\Service;
 use Wasi\SDK\Models\User;
 
 class Core implements Driver
@@ -74,6 +76,12 @@ class Core implements Driver
             case Customer::class:
                 $url = 'client/get/';
                 break;
+            case Banner::class:
+                $url = 'banner/get/';
+                break;
+            case Service::class:
+                $url = 'service/get/';
+                break;
             default:
                 $url = '';
                 break;
@@ -110,6 +118,12 @@ class Core implements Driver
                 break;
             case PropertyType::class:
                 $url = 'property-type/all';
+                break;
+            case Banner::class:
+                $url = 'banner/search/';
+                break;
+            case Service::class:
+                $url = 'service/search';
                 break;
             default:
                 $url = '';
@@ -153,7 +167,7 @@ class Core implements Driver
         $json = file_get_contents($url);
         $return = json_decode($json, true);
         if($return['status'] == Core::STATUS_ERROR) {
-            throw new \Exception($return->message);
+            throw new \Exception($return['message']);
         }
         return $return;
     }
