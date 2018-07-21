@@ -88,9 +88,6 @@ class Core implements Driver
             case Service::class:
                 $url = 'service/get/';
                 break;
-            case Country::class:
-                $url = 'location/country/';
-                break;
             case Region::class:
                 $url = 'location/region/';
                 break;
