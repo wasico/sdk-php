@@ -76,9 +76,6 @@ class Core implements Driver
         $subClass = self::getClass($interfaceClassName);
        
         switch ($class) {
-            case Property::class:
-                $url = 'property/get/';
-                break;
             case User::class:
                 $url = 'user/get/';
                 break;
