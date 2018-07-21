@@ -3,6 +3,7 @@
 namespace Wasi\SDK\Drivers\V1;
 
 use Wasi\SDK\Drivers\Driver;
+use Wasi\SDK\Drivers\V1\SubModels\SubModel;
 use Wasi\SDK\Models\Banner;
 use Wasi\SDK\Models\Country;
 use Wasi\SDK\Models\Customer;
@@ -11,6 +12,7 @@ use Wasi\SDK\Models\Model;
 use Wasi\SDK\Models\Portal;
 use Wasi\SDK\Models\Property;
 use Wasi\SDK\Models\PropertyType;
+use Wasi\SDK\Models\Region;
 use Wasi\SDK\Models\Service;
 use Wasi\SDK\Models\User;
 
@@ -21,6 +23,8 @@ class Core implements Driver
 
     private $id_company;
     private $wasi_token;
+
+    private static $subClasses = [];
 
     function __construct(array $params = [])
     {
@@ -67,6 +71,10 @@ class Core implements Driver
     public function find(Model $model, string $id)
     {
         $class = get_class($model);
+        $reflect = new \ReflectionClass($class);
+        $interfaceClassName = "\\Wasi\\SDK\\Drivers\\V1\\SubModels\\".$reflect->getShortName();
+        $subClass = self::getClass($interfaceClassName);
+       
         switch ($class) {
             case Property::class:
                 $url = 'property/get/';
@@ -77,17 +85,17 @@ class Core implements Driver
             case Customer::class:
                 $url = 'client/get/';
                 break;
-            case Banner::class:
-                $url = 'banner/get/';
-                break;
             case Service::class:
                 $url = 'service/get/';
                 break;
             case Country::class:
                 $url = 'location/country/';
                 break;
+            case Region::class:
+                $url = 'location/region/';
+                break;
             default:
-                $url = '';
+                $url = $subClass::urlFind();
                 break;
         }
         $url = self::url($url.$id);
@@ -177,5 +185,12 @@ class Core implements Driver
             throw new \Exception($return['message']);
         }
         return $return;
+    }
+
+    public static function getClass(string $class) : SubModel
+    {
+        if(isset(static::$subClasses[$class]))
+            return static::$subClasses[$class];
+        return static::$subClasses[$class] = new $class();
     }
 }
