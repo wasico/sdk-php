@@ -110,9 +110,6 @@ class Core implements Driver
             case PropertyType::class:
                 $url = 'property-type/all';
                 break;
-            case Service::class:
-                $url = 'service/search';
-                break;
             default:
                 $url = $subClass::urlGet();
                 break;
