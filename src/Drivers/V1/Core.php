@@ -112,6 +112,9 @@ class Core implements Driver
     public function preGet(Model $model)
     {
         $class = get_class($model);
+        $reflect = new \ReflectionClass($class);
+        $interfaceClassName = "\\Wasi\\SDK\\Drivers\\V1\\SubModels\\".$reflect->getShortName();
+        $subClass = self::getClass($interfaceClassName);
         switch ($class) {
             case Property::class:
                 $url = 'property/search';
@@ -131,9 +134,6 @@ class Core implements Driver
             case PropertyType::class:
                 $url = 'property-type/all';
                 break;
-            case Banner::class:
-                $url = 'banner/search';
-                break;
             case Service::class:
                 $url = 'service/search';
                 break;
@@ -141,7 +141,7 @@ class Core implements Driver
                 $url = 'location/all-countries';
                 break;
             default:
-                $url = '';
+                $url = $subClass::urlGet();
                 break;
         }
         $url = self::url($url);
