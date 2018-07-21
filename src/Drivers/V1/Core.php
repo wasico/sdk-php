@@ -76,9 +76,6 @@ class Core implements Driver
         $subClass = self::getClass($interfaceClassName);
        
         switch ($class) {
-            case Region::class:
-                $url = 'location/region/';
-                break;
             default:
                 $url = $subClass::urlFind();
                 break;
