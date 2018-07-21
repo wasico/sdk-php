@@ -134,9 +134,6 @@ class Core implements Driver
             case Service::class:
                 $url = 'service/search';
                 break;
-            case Country::class:
-                $url = 'location/all-countries';
-                break;
             default:
                 $url = $subClass::urlGet();
                 break;
