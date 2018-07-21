@@ -107,9 +107,6 @@ class Core implements Driver
         $interfaceClassName = "\\Wasi\\SDK\\Drivers\\V1\\SubModels\\".$reflect->getShortName();
         $subClass = self::getClass($interfaceClassName);
         switch ($class) {
-            case User::class:
-                $url = 'user/all-users';
-                break;
             case Portal::class:
                 $url = 'portal/all';
                 break;
