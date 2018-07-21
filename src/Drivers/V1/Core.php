@@ -148,11 +148,11 @@ class Core implements Driver
         foreach ($where as $key => $value)
             $url.="&$key=$value";
         $request = $this->request($url);
-        $total = (int) $request['total'];
         $elements = [];
         foreach ($request as $key => $value)
             if(is_numeric($key))
                 $elements[] = new $class($value);
+        $total = isset($request['total']) ? (int) $request['total'] : count($elements);
         return [
             'total' => $total,
             'elements' => $elements,
