@@ -4,6 +4,7 @@ namespace Wasi\SDK\Drivers\V1;
 
 use Wasi\SDK\Drivers\Driver;
 use Wasi\SDK\Models\Banner;
+use Wasi\SDK\Models\Country;
 use Wasi\SDK\Models\Customer;
 use Wasi\SDK\Models\CustomerType;
 use Wasi\SDK\Models\Model;
@@ -82,6 +83,9 @@ class Core implements Driver
             case Service::class:
                 $url = 'service/get/';
                 break;
+            case Country::class:
+                $url = 'location/country/';
+                break;
             default:
                 $url = '';
                 break;
@@ -120,10 +124,13 @@ class Core implements Driver
                 $url = 'property-type/all';
                 break;
             case Banner::class:
-                $url = 'banner/search/';
+                $url = 'banner/search';
                 break;
             case Service::class:
                 $url = 'service/search';
+                break;
+            case Country::class:
+                $url = 'location/all-countries';
                 break;
             default:
                 $url = '';
