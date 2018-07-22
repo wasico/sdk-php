@@ -9,7 +9,7 @@ class Model
 {
     private static $standardMethods = ['count', 'data', 'find', 'get', 'order', 'orderBy', 'skip', 'take', 'where'];
 
-    private $attributes = [];
+    protected $attributes = [];
     private $data = [];
     private $where = [];
     private $skip = null;
