@@ -76,6 +76,8 @@ class Core implements Driver
         $subClass = self::getClass($interfaceClassName);
 
         $url = $subClass::urlFind();
+        if($url == null)
+            throw new \Exception("Find method does not supported by $class class");
         $url = self::url($url.$id);
         $data = $model->getDataArray();
         foreach ($data as $key => $value)
@@ -95,6 +97,8 @@ class Core implements Driver
         $subClass = self::getClass($interfaceClassName);
 
         $url = $subClass::urlGet();
+        if($url == null)
+            throw new \Exception("Get method does not supported by $class class");
         $url = self::url($url);
         $url = $model->getSkip() ? $url.'&skip='.$model->getSkip() : $url;
         $url = $model->getTake() ? $url.'&take='.$model->getTake() : $url;
