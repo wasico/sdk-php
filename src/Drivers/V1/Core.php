@@ -93,11 +93,8 @@ class Core implements Driver
         $reflect = new \ReflectionClass($class);
         $interfaceClassName = "\\Wasi\\SDK\\Drivers\\V1\\SubModels\\".$reflect->getShortName();
         $subClass = self::getClass($interfaceClassName);
-        switch ($class) {
-            default:
-                $url = $subClass::urlGet();
-                break;
-        }
+
+        $url = $subClass::urlGet();
         $url = self::url($url);
         $url = $model->getSkip() ? $url.'&skip='.$model->getSkip() : $url;
         $url = $model->getTake() ? $url.'&take='.$model->getTake() : $url;
