@@ -21,4 +21,9 @@ class User extends Model
             'photo'       => new Attribute(Attribute::STRING),
         ];
     }
+
+    public function properties()
+    {
+        return Property::where('id_user', $this->attributes['id_user']);
+    }
 }
