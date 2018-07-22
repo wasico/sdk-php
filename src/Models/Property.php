@@ -72,6 +72,7 @@ class Property extends Model
 
     public function user()
     {
+        #return User::where('id_user', (int)$this->attributes['id_user']);
         return User::find($this->attributes['id_user']);
     }
 }
