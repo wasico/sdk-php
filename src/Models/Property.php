@@ -69,4 +69,9 @@ class Property extends Model
             'label'                    => new Attribute(Attribute::STRING),
         ];
     }
+
+    public function user()
+    {
+        return User::find($this->attributes['id_user']);
+    }
 }
