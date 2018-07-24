@@ -14,4 +14,9 @@ class Country extends Model
             'iso' => new Attribute(Attribute::STRING, false),
         ];
     }
+
+    public function regions()
+    {
+        return Region::where('id_country', $this->attributes['id_country']);
+    }
 }
