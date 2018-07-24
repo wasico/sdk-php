@@ -93,6 +93,14 @@ class Core implements Driver
         $url = $model->getTake() ? $url.'&take='.$model->getTake() : $url;
         $url = $model->getOrderBy() ? $url.'&order_by='.$model->getOrderBy() : $url;
         $url = $model->getOrder() ? $url.'&order='.$model->getOrder() : $url;
+
+        $data = $model->getDataArray();
+        foreach ($data as $key => $value)
+            $url.="&$key=$value";
+        $where = $model->getWhereArray();
+        foreach ($where as $key => $value)
+            $url.="&$key=$value";
+
         return $url;
     }
 
@@ -100,12 +108,6 @@ class Core implements Driver
     {
         $class = get_class($model);
         $url = self::url($model, $id, self::URL_FIND);
-        $data = $model->getDataArray();
-        foreach ($data as $key => $value)
-            $url.="&$key=$value";
-        $where = $model->getWhereArray();
-        foreach ($where as $key => $value)
-            $url.="&$key=$value";
         $request = static::request($url);
         return new $class($request);
     }
@@ -114,12 +116,6 @@ class Core implements Driver
     {
         $class = get_class($model);
         $url = self::url($model, '', self::URL_GET);
-        $data = $model->getDataArray();
-        foreach ($data as $key => $value)
-            $url.="&$key=$value";
-        $where = $model->getWhereArray();
-        foreach ($where as $key => $value)
-            $url.="&$key=$value";
         $request = static::request($url);
         $elements = [];
         foreach ($request as $key => $value)
