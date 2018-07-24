@@ -40,6 +40,15 @@ class Core implements Driver
         }
     }
 
+    public function __call($name, $arguments)
+    {
+        $model = $arguments[0];
+        $class = get_class($model);
+        $reflect = new \ReflectionClass($class);
+        $interfaceClassName = "\\Wasi\\SDK\\Drivers\\V1\\SubModels\\".$reflect->getShortName();
+        return call_user_func_array($interfaceClassName."::".$name, $arguments);
+    }
+
     public function setIdCompany(int $id_company)
     {
         $this->id_company = $id_company;
@@ -75,7 +84,7 @@ class Core implements Driver
         $interfaceClassName = "\\Wasi\\SDK\\Drivers\\V1\\SubModels\\".$reflect->getShortName();
         $subClass = self::getClass($interfaceClassName);
 
-        $url = $subClass::urlFind();
+        $url = $subClass::urlFind($model);
         if($url == null)
             throw new \Exception("Find method does not supported by $class class");
         $url = self::url($url.$id);
@@ -96,7 +105,7 @@ class Core implements Driver
         $interfaceClassName = "\\Wasi\\SDK\\Drivers\\V1\\SubModels\\".$reflect->getShortName();
         $subClass = self::getClass($interfaceClassName);
 
-        $url = $subClass::urlGet();
+        $url = $subClass::urlGet($model);
         if($url == null)
             throw new \Exception("Get method does not supported by $class class");
         $url = self::url($url);
