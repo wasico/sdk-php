@@ -115,6 +115,27 @@ class Core implements Driver
         return $url;
     }
 
+    #TODO remove
+    public function generateRequest(Model $model, string $urlType, array $params)
+    {
+        $path = $params['path'] ??  '';
+        $class = $params['class'] ?? $class = get_class($model);
+        $unique = $params['unique'] ?? false;
+        $url = self::url($model, $path, $urlType);
+        $request = static::request($url);
+        if($unique)
+            return new $class($request);
+        $elements = [];
+        foreach ($request as $key => $value)
+            if(is_numeric($key))
+                $elements[] = new $class($value);
+        $total = isset($request['total']) ? (int) $request['total'] : count($elements);
+        return [
+            'total' => $total,
+            'elements' => $elements,
+        ];
+    }
+
     public function specialMethod(Model $model, string $url, $class)
     {
         $url = self::url($model, $url, self::URL_SPECIAL);
