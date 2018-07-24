@@ -15,8 +15,8 @@ class Configuration
         unset($params['v']);
         $class = "Wasi\SDK\Drivers\V".$v."\Core";
         if (class_exists($class)) {
-            $refl = new \ReflectionClass($class);
-            $instance = $refl->newInstanceArgs([$params]);
+            $reflect = new \ReflectionClass($class);
+            $instance = $reflect->newInstanceArgs([$params]);
             self::setDriver($instance);
         } else {
             throw new \Exception("Class $class does not exist");
