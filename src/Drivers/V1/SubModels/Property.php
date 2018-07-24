@@ -2,11 +2,10 @@
 
 namespace Wasi\SDK\Drivers\V1\SubModels;
 
-use Wasi\SDK\Configuration;
-use Wasi\SDK\Drivers\V1\Core;
+use Wasi\SDK\Drivers\V1\WrappedModel;
 use Wasi\SDK\Models\Model;
 
-class Property extends SubModel
+class Property implements SubModel
 {
 
     public static function urlFind(Model $model): ? string
@@ -19,8 +18,13 @@ class Property extends SubModel
         return 'property/search';
     }
 
-    public static function owners(Model $model)
+    public function owners(Model $model)
     {
-        return Configuration::getDriver()->specialMethod($model, 'property/owner/'.$model->id_property, Customer::class);
+        return new WrappedModel(\Wasi\SDK\Models\Customer::class, 'property/owner/'.$model->id_property);
+    }
+
+    public static function highlighted()
+    {
+        return new WrappedModel(\Wasi\SDK\Models\Property::class, 'property/highlighted');
     }
 }
