@@ -94,7 +94,7 @@ class Core implements Driver
         $where = $model->getWhereArray();
         foreach ($where as $key => $value)
             $url.="&$key=$value";
-        $request = $this->request($url);
+        $request = static::request($url);
         return new $class($request);
     }
 
@@ -119,7 +119,7 @@ class Core implements Driver
         $where = $model->getWhereArray();
         foreach ($where as $key => $value)
             $url.="&$key=$value";
-        $request = $this->request($url);
+        $request = static::request($url);
         $elements = [];
         foreach ($request as $key => $value)
             if(is_numeric($key))
@@ -141,7 +141,7 @@ class Core implements Driver
         return $this->preGet($model)['elements'];
     }
 
-    public function request($url)
+    public static function request($url)
     {
         $json = file_get_contents($url);
         $return = json_decode($json, true);
