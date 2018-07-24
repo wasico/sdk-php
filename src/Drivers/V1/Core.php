@@ -91,7 +91,8 @@ class Core implements Driver
                 $prePath = $subClass::urlGet($model);
                 break;
             default:
-                $prePath = '';
+                $prePath = $path;
+                $path = '';
                 break;
         }
         if($prePath == null)
@@ -112,6 +113,23 @@ class Core implements Driver
             $url.="&$key=$value";
 
         return $url;
+    }
+
+    public function specialMethod(Model $model, string $url, $class)
+    {
+        $url = self::url($model, $url, self::URL_SPECIAL);
+        $request = static::request($url);
+        $elements = [];
+        foreach ($request as $key => $value)
+            if(is_numeric($key))
+                $elements[] = new $class($value);
+        $total = isset($request['total']) ? (int) $request['total'] : count($elements);
+        if($total > 0)
+            return [
+                'total' => $total,
+                'elements' => $elements,
+            ];
+        return new $class($request);
     }
 
     public function find(Model $model, string $id)
