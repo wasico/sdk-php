@@ -26,6 +26,7 @@ class Core implements Driver
 
     private $id_company;
     private $wasi_token;
+    private $baseURL = 'https://api.wasi.co/v1/';
 
     private static $subClasses = [];
 
@@ -40,6 +41,8 @@ class Core implements Driver
             }
             $this->setIdCompany($params['id_company']);
             $this->setWasiToken($params['wasi_token']);
+            if (isset($params['base_url']))
+                $this->setBaseURL($params['base_url']);
         }
     }
 
@@ -51,6 +54,14 @@ class Core implements Driver
         $interfaceClassName = "\\Wasi\\SDK\\Drivers\\V1\\SubModels\\".$reflect->getShortName();
         $subClass = new $interfaceClassName();
         return call_user_func_array([$subClass, $name], $arguments);
+    }
+
+    public static function __callStatic($name, $arguments)
+    {
+        $class = $arguments[0];
+        $reflect = new \ReflectionClass($class);
+        $interfaceClassName = "\\Wasi\\SDK\\Drivers\\V1\\SubModels\\".$reflect->getShortName();
+        return call_user_func_array("$interfaceClassName::".ucfirst($name), $arguments);
     }
 
     public function setIdCompany(int $id_company)
@@ -73,6 +84,16 @@ class Core implements Driver
         return $this->wasi_token;
     }
 
+    public function setBaseURL(string $basePath)
+    {
+        $this->baseURL = $basePath;
+    }
+
+    public function getBaseURL() : string
+    {
+        return $this->baseURL;
+    }
+
     public static function getSubClass(Model $model)
     {
         $class = get_class($model);
@@ -83,12 +104,13 @@ class Core implements Driver
 
     public function url(Model $model, $path = '', $urlType = self::URL_GET)
     {
-        $subClass = self::getSubClass($model);
         switch ($urlType) {
             case self::URL_FIND:
+                $subClass = self::getSubClass($model);
                 $prePath = $subClass::urlFind($model);
                 break;
             case self::URL_GET:
+                $subClass = self::getSubClass($model);
                 $prePath = $subClass::urlGet($model);
                 break;
             default:
@@ -98,7 +120,7 @@ class Core implements Driver
         }
         if($prePath == null)
             throw new \Exception("$urlType method does not supported by {} class");
-        $url = "https://api.wasi.co/v1/$prePath$path?source=sdk";
+        $url = $this->getBaseURL()."$prePath$path?source=sdk";
         if($this->id_company && $this->wasi_token)
             $url = "$url&id_company={$this->id_company}&wasi_token={$this->wasi_token}";
         $url = $model->getSkip() ? $url.'&skip='.$model->getSkip() : $url;
@@ -116,44 +138,6 @@ class Core implements Driver
         return $url;
     }
 
-    #TODO remove
-    public function generateRequest(Model $model, string $urlType, array $params)
-    {
-        $path = $params['path'] ??  '';
-        $class = $params['class'] ?? $class = get_class($model);
-        $unique = $params['unique'] ?? false;
-        $url = self::url($model, $path, $urlType);
-        $request = static::request($url);
-        if($unique)
-            return new $class($request);
-        $elements = [];
-        foreach ($request as $key => $value)
-            if(is_numeric($key))
-                $elements[] = new $class($value);
-        $total = isset($request['total']) ? (int) $request['total'] : count($elements);
-        return [
-            'total' => $total,
-            'elements' => $elements,
-        ];
-    }
-
-    public function specialMethod(Model $model, string $url, $class)
-    {
-        $url = self::url($model, $url, self::URL_SPECIAL);
-        $request = static::request($url);
-        $elements = [];
-        foreach ($request as $key => $value)
-            if(is_numeric($key))
-                $elements[] = new $class($value);
-        $total = isset($request['total']) ? (int) $request['total'] : count($elements);
-        if($total > 0)
-            return [
-                'total' => $total,
-                'elements' => $elements,
-            ];
-        return new $class($request);
-    }
-
     public function find(Model $model, string $id)
     {
         $class = get_class($model);
@@ -165,7 +149,12 @@ class Core implements Driver
     public function preGet(Model $model)
     {
         $class = get_class($model);
-        $url = self::url($model, '', self::URL_GET);
+
+        if($class == WrappedModel::class) {
+            $class = $model->getWrappedModel();
+            $url = self::url($model, $model->getPath(), self::URL_SPECIAL);
+        } else
+            $url = self::url($model, '', self::URL_GET);
         $request = static::request($url);
         $elements = [];
         foreach ($request as $key => $value)
