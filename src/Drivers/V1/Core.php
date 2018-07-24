@@ -49,7 +49,8 @@ class Core implements Driver
         $class = get_class($model);
         $reflect = new \ReflectionClass($class);
         $interfaceClassName = "\\Wasi\\SDK\\Drivers\\V1\\SubModels\\".$reflect->getShortName();
-        return call_user_func_array($interfaceClassName."::".$name, $arguments);
+        $subClass = new $interfaceClassName();
+        return call_user_func_array([$subClass, $name], $arguments);
     }
 
     public function setIdCompany(int $id_company)
