@@ -6,7 +6,7 @@ use Wasi\SDK\Configuration;
 use Wasi\SDK\Drivers\V1\Core;
 use Wasi\SDK\Models\Model;
 
-class Property implements SubModel
+class Property extends SubModel
 {
 
     public static function urlFind(Model $model): ? string
