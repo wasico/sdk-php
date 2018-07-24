@@ -4,7 +4,7 @@ namespace Wasi\SDK\Drivers\V1\SubModels;
 
 use Wasi\SDK\Models\Model;
 
-class User extends SubModel
+class User implements SubModel
 {
 
     public static function urlFind(Model $model): ? string
