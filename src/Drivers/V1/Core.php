@@ -69,12 +69,16 @@ class Core implements Driver
         return $this->wasi_token;
     }
 
-    public function url($path = '')
+    public function url(Model $model, $path = '')
     {
         $base = "https://api.wasi.co/v1/$path?source=sdk";
         if($this->id_company && $this->wasi_token)
-            return "$base&id_company={$this->id_company}&wasi_token={$this->wasi_token}";
-        return $base;
+            $url = "$base&id_company={$this->id_company}&wasi_token={$this->wasi_token}";
+        $url = $model->getSkip() ? $url.'&skip='.$model->getSkip() : $url;
+        $url = $model->getTake() ? $url.'&take='.$model->getTake() : $url;
+        $url = $model->getOrderBy() ? $url.'&order_by='.$model->getOrderBy() : $url;
+        $url = $model->getOrder() ? $url.'&order='.$model->getOrder() : $url;
+        return $url;
     }
 
     public function find(Model $model, string $id)
@@ -87,7 +91,7 @@ class Core implements Driver
         $url = $subClass::urlFind($model);
         if($url == null)
             throw new \Exception("Find method does not supported by $class class");
-        $url = self::url($url.$id);
+        $url = self::url($model, $url.$id);
         $data = $model->getDataArray();
         foreach ($data as $key => $value)
             $url.="&$key=$value";
@@ -108,11 +112,7 @@ class Core implements Driver
         $url = $subClass::urlGet($model);
         if($url == null)
             throw new \Exception("Get method does not supported by $class class");
-        $url = self::url($url);
-        $url = $model->getSkip() ? $url.'&skip='.$model->getSkip() : $url;
-        $url = $model->getTake() ? $url.'&take='.$model->getTake() : $url;
-        $url = $model->getOrderBy() ? $url.'&order_by='.$model->getOrderBy() : $url;
-        $url = $model->getOrder() ? $url.'&order='.$model->getOrder() : $url;
+        $url = self::url($model, $url);
         $data = $model->getDataArray();
         foreach ($data as $key => $value)
             $url.="&$key=$value";
