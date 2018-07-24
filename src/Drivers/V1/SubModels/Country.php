@@ -2,15 +2,17 @@
 
 namespace Wasi\SDK\Drivers\V1\SubModels;
 
+use Wasi\SDK\Models\Model;
+
 class Country implements SubModel
 {
 
-    public static function urlFind(): ? string
+    public static function urlFind(Model $model): ? string
     {
         return 'location/country/';
     }
 
-    public static function urlGet(): ? string
+    public static function urlGet(Model $model): ? string
     {
         return 'location/all-countries';
     }
