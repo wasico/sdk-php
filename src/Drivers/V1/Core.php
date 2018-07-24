@@ -89,6 +89,8 @@ class Core implements Driver
         $base = "https://api.wasi.co/v1/$path?source=sdk";
         if($this->id_company && $this->wasi_token)
             $url = "$base&id_company={$this->id_company}&wasi_token={$this->wasi_token}";
+        else
+            $url = $base;
         $url = $model->getSkip() ? $url.'&skip='.$model->getSkip() : $url;
         $url = $model->getTake() ? $url.'&take='.$model->getTake() : $url;
         $url = $model->getOrderBy() ? $url.'&order_by='.$model->getOrderBy() : $url;
