@@ -4,9 +4,21 @@ namespace Wasi\SDK\Drivers\V1\SubModels;
 
 use Wasi\SDK\Models\Model;
 
-interface SubModel
+abstract class SubModel
 {
-    public static function urlFind(Model $model) : ? string;
+    private $specialRoute;
 
-    public static function urlGet(Model $model) : ? string;
+    public function setSpecialRoute(string $route)
+    {
+        $this->specialRoute = $route;
+    }
+
+    public function getSpecialRoute()
+    {
+        return $this->specialRoute;
+    }
+
+    abstract public static function urlFind(Model $model) : ? string;
+
+    abstract public static function urlGet(Model $model) : ? string;
 }
