@@ -99,10 +99,6 @@ class Core implements Driver
     public function find(Model $model, string $id)
     {
         $class = get_class($model);
-        $reflect = new \ReflectionClass($class);
-        $interfaceClassName = "\\Wasi\\SDK\\Drivers\\V1\\SubModels\\".$reflect->getShortName();
-        $subClass = self::getClass($interfaceClassName);
-
         $url = self::url($model, $id, self::URL_FIND);
         $data = $model->getDataArray();
         foreach ($data as $key => $value)
@@ -117,10 +113,6 @@ class Core implements Driver
     public function preGet(Model $model)
     {
         $class = get_class($model);
-        $reflect = new \ReflectionClass($class);
-        $interfaceClassName = "\\Wasi\\SDK\\Drivers\\V1\\SubModels\\".$reflect->getShortName();
-        $subClass = self::getClass($interfaceClassName);
-
         $url = self::url($model, '', self::URL_GET);
         $data = $model->getDataArray();
         foreach ($data as $key => $value)
