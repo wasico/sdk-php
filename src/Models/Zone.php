@@ -16,4 +16,14 @@ class Zone extends Model
             'owner' => new Attribute(Attribute::STRING, false),
         ];
     }
+
+    public function city()
+    {
+        return City::find($this->attributes['id_city']);
+    }
+
+    public function location()
+    {
+        return Location::find($this->attributes['id_location']);
+    }
 }
