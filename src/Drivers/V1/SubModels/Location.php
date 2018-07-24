@@ -2,16 +2,21 @@
 
 namespace Wasi\SDK\Drivers\V1\SubModels;
 
+use Wasi\SDK\Models\Model;
+
 class Location implements SubModel
 {
 
-    public static function urlFind(): ? string
+    public static function urlFind(Model $model): ? string
     {
         return 'location/location/';
     }
 
-    public static function urlGet(): ? string
+    public static function urlGet(Model $model): ? string
     {
-        return null;
+        $whereArray = $model->getWhereArray();
+        if(!isset($whereArray['id_city']))
+            throw new WhereIsRequireException("Where with id_city is required");
+        return 'location/locations-from-city/'.$whereArray['id_city'];
     }
 }
