@@ -5,7 +5,7 @@ namespace Wasi\SDK\Drivers\V1\SubModels;
 
 use Wasi\SDK\Models\Model;
 
-class Banner implements SubModel
+class Banner extends SubModel
 {
 
     public static function urlFind(Model $model): ? string
