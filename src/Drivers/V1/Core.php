@@ -20,6 +20,8 @@ class Core implements Driver
 {
     const STATUS_SUCCESS = 'success';
     const STATUS_ERROR = 'error';
+    const URL_GET = 'Get';
+    const URL_FIND = 'Find';
 
     private $id_company;
     private $wasi_token;
@@ -69,8 +71,21 @@ class Core implements Driver
         return $this->wasi_token;
     }
 
-    public function url(Model $model, $path = '')
+    public static function getSubClass(Model $model)
     {
+        $class = get_class($model);
+        $reflect = new \ReflectionClass($class);
+        $interfaceClassName = "\\Wasi\\SDK\\Drivers\\V1\\SubModels\\".$reflect->getShortName();
+        return self::getClass($interfaceClassName);
+    }
+
+    public function url(Model $model, $path = '', $urlType = self::URL_GET)
+    {
+        $subClass = self::getSubClass($model);
+        $prePath = $urlType == self::URL_FIND ? $subClass::urlFind($model) : $subClass::urlGet($model);
+        if($prePath == null)
+            throw new \Exception("$urlType method does not supported by {} class");
+        $path = $prePath.$path;
         $base = "https://api.wasi.co/v1/$path?source=sdk";
         if($this->id_company && $this->wasi_token)
             $url = "$base&id_company={$this->id_company}&wasi_token={$this->wasi_token}";
@@ -88,10 +103,7 @@ class Core implements Driver
         $interfaceClassName = "\\Wasi\\SDK\\Drivers\\V1\\SubModels\\".$reflect->getShortName();
         $subClass = self::getClass($interfaceClassName);
 
-        $url = $subClass::urlFind($model);
-        if($url == null)
-            throw new \Exception("Find method does not supported by $class class");
-        $url = self::url($model, $url.$id);
+        $url = self::url($model, $id, self::URL_FIND);
         $data = $model->getDataArray();
         foreach ($data as $key => $value)
             $url.="&$key=$value";
@@ -109,10 +121,7 @@ class Core implements Driver
         $interfaceClassName = "\\Wasi\\SDK\\Drivers\\V1\\SubModels\\".$reflect->getShortName();
         $subClass = self::getClass($interfaceClassName);
 
-        $url = $subClass::urlGet($model);
-        if($url == null)
-            throw new \Exception("Get method does not supported by $class class");
-        $url = self::url($model, $url);
+        $url = self::url($model, '', self::URL_GET);
         $data = $model->getDataArray();
         foreach ($data as $key => $value)
             $url.="&$key=$value";
