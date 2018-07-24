@@ -14,4 +14,14 @@ class Region extends Model
             'id_country' => new Attribute(Attribute::INTEGER, false),
         ];
     }
+
+    public function country()
+    {
+        return Country::find($this->attributes['id_country']);
+    }
+
+    public function cities()
+    {
+        return City::where('id_region', $this->attributes['id_region'])->get();
+    }
 }
