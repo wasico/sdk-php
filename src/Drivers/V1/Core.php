@@ -85,11 +85,9 @@ class Core implements Driver
         $prePath = $urlType == self::URL_FIND ? $subClass::urlFind($model) : $subClass::urlGet($model);
         if($prePath == null)
             throw new \Exception("$urlType method does not supported by {} class");
-        $base = "https://api.wasi.co/v1/$prePath$path?source=sdk";
+        $url = "https://api.wasi.co/v1/$prePath$path?source=sdk";
         if($this->id_company && $this->wasi_token)
-            $url = "$base&id_company={$this->id_company}&wasi_token={$this->wasi_token}";
-        else
-            $url = $base;
+            $url = "$url&id_company={$this->id_company}&wasi_token={$this->wasi_token}";
         $url = $model->getSkip() ? $url.'&skip='.$model->getSkip() : $url;
         $url = $model->getTake() ? $url.'&take='.$model->getTake() : $url;
         $url = $model->getOrderBy() ? $url.'&order_by='.$model->getOrderBy() : $url;
