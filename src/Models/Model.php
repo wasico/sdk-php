@@ -43,6 +43,9 @@ class Model
     {
         if(in_array($name, self::$standardMethods))
             return call_user_func_array([$this, "instance".ucfirst($name)], $arguments);
+        $driver = Configuration::getDriver();
+        $arguments = array_merge([$this], $arguments);
+        return call_user_func_array([$driver, $name], $arguments);
     }
 
     public function __get($name)
