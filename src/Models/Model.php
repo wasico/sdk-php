@@ -33,12 +33,6 @@ class Model
     |--------------------------------------------------------------------------
     */
 
-    public static function __callStatic($name, $arguments)
-    {
-        if(in_array($name, self::$standardMethods))
-            return call_user_func_array(static::class."::static".ucfirst($name), $arguments);
-    }
-
     public function __call($name, $arguments)
     {
         if(in_array($name, self::$standardMethods))
@@ -46,6 +40,15 @@ class Model
         $driver = Configuration::getDriver();
         $arguments = array_merge([$this], $arguments);
         return call_user_func_array([$driver, $name], $arguments);
+    }
+
+    public static function __callStatic($name, $arguments)
+    {
+        if(in_array($name, self::$standardMethods))
+            return call_user_func_array(static::class."::static".ucfirst($name), $arguments);
+        $driver = Configuration::getDriver();
+        $arguments = array_merge([static::class], $arguments);
+        return call_user_func_array(get_class($driver)."::$name", $arguments);
     }
 
     public function __get($name)
