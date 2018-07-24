@@ -2,6 +2,8 @@
 
 namespace Wasi\SDK\Drivers\V1\SubModels;
 
+use Wasi\SDK\Configuration;
+use Wasi\SDK\Drivers\V1\Core;
 use Wasi\SDK\Models\Model;
 
 class Property implements SubModel
@@ -17,8 +19,8 @@ class Property implements SubModel
         return 'property/search';
     }
 
-    public static function owner(Model $model)
+    public static function owners(Model $model)
     {
-        return $url = 'property/owner/'.$model->id_property;//temp
+        return Configuration::getDriver()->specialMethod($model, 'property/owner/'.$model->id_property, Customer::class);
     }
 }
