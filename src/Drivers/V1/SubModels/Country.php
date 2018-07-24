@@ -4,7 +4,7 @@ namespace Wasi\SDK\Drivers\V1\SubModels;
 
 use Wasi\SDK\Models\Model;
 
-class Country extends SubModel
+class Country implements SubModel
 {
 
     public static function urlFind(Model $model): ? string
