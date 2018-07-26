@@ -10,6 +10,7 @@ class Attribute
     const DATE = 3;
     const DATETIME = 4;
     const EMAIL = 5;
+    const ARRAY = 6;
 
     private $type;
     private $editable;
