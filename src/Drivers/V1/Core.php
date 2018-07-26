@@ -144,11 +144,11 @@ class Core implements Driver
                         $url .= "&$key=".($value==true?'true':'false');
                         break;
                     default:
-                        $url .= "&$key=$value";
+                        $url .= "&$key=".urlencode($value);
                         break;
                 }
             } else
-                $url .= "&$key=$value";
+                $url .= "&$key=".urlencode($value);
         }
 
         return $url;
