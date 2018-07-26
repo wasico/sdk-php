@@ -5,7 +5,7 @@ namespace Wasi\SDK\Drivers\V1\SubModels;
 use Wasi\SDK\Exceptions\WhereIsRequireException;
 use Wasi\SDK\Models\Model;
 
-class Region implements SubModel
+class Region extends SubModel
 {
 
     public static function urlFind(Model $model): ? string
