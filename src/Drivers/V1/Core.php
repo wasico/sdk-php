@@ -2,6 +2,7 @@
 
 namespace Wasi\SDK\Drivers\V1;
 
+use Wasi\SDK\Classes\Attribute;
 use Wasi\SDK\Drivers\Driver;
 use Wasi\SDK\Drivers\V1\SubModels\SubModel;
 use Wasi\SDK\Models\Banner;
@@ -94,23 +95,26 @@ class Core implements Driver
         return $this->baseURL;
     }
 
-    public static function getSubClass(Model $model)
+    public static function getSubClass(Model $model): ? SubModel
     {
         $class = get_class($model);
+        if(isset(static::$subClasses[$class]))
+            return static::$subClasses[$class];
         $reflect = new \ReflectionClass($class);
         $interfaceClassName = "\\Wasi\\SDK\\Drivers\\V1\\SubModels\\".$reflect->getShortName();
-        return self::getClass($interfaceClassName);
+        if(class_exists($interfaceClassName))
+            return static::$subClasses[$class] = new $interfaceClassName();
+        return null;
     }
 
     public function url(Model $model, $path = '', $urlType = self::URL_GET)
     {
+        $subClass = self::getSubClass($model);
         switch ($urlType) {
             case self::URL_FIND:
-                $subClass = self::getSubClass($model);
                 $prePath = $subClass::urlFind($model);
                 break;
             case self::URL_GET:
-                $subClass = self::getSubClass($model);
                 $prePath = $subClass::urlGet($model);
                 break;
             default:
@@ -119,7 +123,7 @@ class Core implements Driver
                 break;
         }
         if($prePath == null)
-            throw new \Exception("$urlType method does not supported by {} class");
+            throw new \Exception("$urlType method does not supported by ".get_class($model)." class");
         $url = $this->getBaseURL()."$prePath$path?source=sdk";
         if($this->id_company && $this->wasi_token)
             $url = "$url&id_company={$this->id_company}&wasi_token={$this->wasi_token}";
@@ -132,8 +136,13 @@ class Core implements Driver
         foreach ($data as $key => $value)
             $url.="&$key=$value";
         $where = $model->getWhereArray();
-        foreach ($where as $key => $value)
-            $url.="&$key=$value";
+        $standartAttributes = $model->standartAttributes();
+        foreach ($where as $key => $value) {
+            if($standartAttributes[$key]->getType() == Attribute::BOOLEAN)
+                $url .= "&$key=".($value==true?'true':'false');
+            else
+                $url .= "&$key=$value";
+        }
 
         return $url;
     }
@@ -149,18 +158,28 @@ class Core implements Driver
     public function preGet(Model $model)
     {
         $class = get_class($model);
+        $subClass = self::getSubClass($model);
+        $objectGet = false;
 
         if($class == WrappedModel::class) {
+            $objectGet = $model->isObjectGet();
             $class = $model->getWrappedModel();
             $url = self::url($model, $model->getPath(), self::URL_SPECIAL);
         } else
             $url = self::url($model, '', self::URL_GET);
         $request = static::request($url);
+
+        if($objectGet)
+            return new $class($request);
+
         $elements = [];
         foreach ($request as $key => $value)
             if(is_numeric($key))
                 $elements[] = new $class($value);
-        $total = isset($request['total']) ? (int) $request['total'] : count($elements);
+        if($subClass && $subClass->customTotal)
+            $total = $subClass->customTotal($request);
+        else
+            $total = isset($request['total']) ? (int) $request['total'] : count($elements);
         return [
             'total' => $total,
             'elements' => $elements,
@@ -169,12 +188,14 @@ class Core implements Driver
 
     public function count(Model $model)
     {
-        return $this->preGet($model)['total'];
+        $return = $this->preGet($model);
+        return is_array($return) && isset($return['total']) ? $return['total'] : $return;
     }
 
     public function get(Model $model)
     {
-        return $this->preGet($model)['elements'];
+        $return = $this->preGet($model);
+        return is_array($return) && isset($return['elements']) ? $return['elements'] : $return;
     }
 
     public static function request($url)
@@ -185,12 +206,5 @@ class Core implements Driver
             throw new \Exception($return['message']);
         }
         return $return;
-    }
-
-    public static function getClass(string $class) : SubModel
-    {
-        if(isset(static::$subClasses[$class]))
-            return static::$subClasses[$class];
-        return static::$subClasses[$class] = new $class();
     }
 }
