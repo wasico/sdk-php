@@ -147,8 +147,12 @@ class Core implements Driver
                         $url .= "&$key=".urlencode($value);
                         break;
                 }
-            } else
-                $url .= "&$key=".urlencode($value);
+            } else {
+                if(is_bool($value))
+                    $url .= "&$key=".($value==true?'true':'false');
+                else
+                    $url .= "&$key=" . urlencode($value);
+            }
         }
 
         return $url;
