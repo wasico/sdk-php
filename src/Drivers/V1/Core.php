@@ -138,9 +138,16 @@ class Core implements Driver
         $where = $model->getWhereArray();
         $standartAttributes = $model->standartAttributes();
         foreach ($where as $key => $value) {
-            if($standartAttributes[$key]->getType() == Attribute::BOOLEAN)
-                $url .= "&$key=".($value==true?'true':'false');
-            else
+            if(isset($standartAttributes[$key])) {
+                switch ($standartAttributes[$key]->getType()) {
+                    case Attribute::BOOLEAN:
+                        $url .= "&$key=".($value==true?'true':'false');
+                        break;
+                    default:
+                        $url .= "&$key=$value";
+                        break;
+                }
+            } else
                 $url .= "&$key=$value";
         }
 
