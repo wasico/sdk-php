@@ -132,9 +132,8 @@ class Core implements Driver
         $url = $model->getOrderBy() ? $url.'&order_by='.$model->getOrderBy() : $url;
         $url = $model->getOrder() ? $url.'&order='.$model->getOrder() : $url;
 
-        $data = $model->getDataArray();
-        foreach ($data as $key => $value)
-            $url.="&$key=$value";
+        $url .= $this->addArrayToURL($model, $model->getDataArray());
+
         $where = $model->getWhereArray();
         $standartAttributes = $model->standartAttributes();
         foreach ($where as $key => $value) {
@@ -155,6 +154,30 @@ class Core implements Driver
             }
         }
 
+        return $url;
+    }
+
+    public function addArrayToURL(Model $model, array $data) : string
+    {
+        $standartAttributes = $model->standartAttributes();
+        $url = '';
+        foreach ($data as $key => $value) {
+            if(isset($standartAttributes[$key])) {
+                switch ($standartAttributes[$key]->getType()) {
+                    case Attribute::BOOLEAN:
+                        $url .= "&$key=".($value==true?'true':'false');
+                        break;
+                    default:
+                        $url .= "&$key=".urlencode($value);
+                        break;
+                }
+            } else {
+                if(is_bool($value))
+                    $url .= "&$key=".($value==true?'true':'false');
+                else
+                    $url .= "&$key=" . urlencode($value);
+            }
+        }
         return $url;
     }
 
