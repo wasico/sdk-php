@@ -134,25 +134,7 @@ class Core implements Driver
 
         $url .= $this->addArrayToURL($model, $model->getDataArray());
 
-        $where = $model->getWhereArray();
-        $standartAttributes = $model->standartAttributes();
-        foreach ($where as $key => $value) {
-            if(isset($standartAttributes[$key])) {
-                switch ($standartAttributes[$key]->getType()) {
-                    case Attribute::BOOLEAN:
-                        $url .= "&$key=".($value==true?'true':'false');
-                        break;
-                    default:
-                        $url .= "&$key=".urlencode($value);
-                        break;
-                }
-            } else {
-                if(is_bool($value))
-                    $url .= "&$key=".($value==true?'true':'false');
-                else
-                    $url .= "&$key=" . urlencode($value);
-            }
-        }
+        $url .= $this->addArrayToURL($model, $model->getWhereArray());
 
         return $url;
     }
