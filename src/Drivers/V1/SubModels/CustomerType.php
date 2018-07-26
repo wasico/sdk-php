@@ -14,6 +14,6 @@ class CustomerType extends SubModel
 
     public static function urlGet(Model $model): ? string
     {
-        return 'property-type/all';
+        return 'client-type/all';
     }
 }
