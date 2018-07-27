@@ -23,4 +23,9 @@ class C
     const AREA_BLOCKS = 2;
     const AREA_HECTARES = 3;
     const AREA_VARAS = 4;
+
+    const PROPERTY_CONDITION_NEW = 1;
+    const PROPERTY_CONDITION_USED = 2;
+    const PROPERTY_CONDITION_PROJECT = 3;
+    const PROPERTY_CONDITION_UNDER_CONSTRUCTION = 4;
 }
