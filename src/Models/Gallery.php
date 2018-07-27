@@ -9,14 +9,14 @@ class Gallery extends Model
     public function standartAttributes()
     {
         return [
-            'id' => new Attribute(Attribute::INTEGER, false),
+            'id_gallery' => new Attribute(Attribute::INTEGER, false),
             'id_property' => new Attribute(Attribute::INTEGER, false),
         ];
     }
 
     public function images()
     {
-        return Image::where('id_gallery', $this->attributes['id']);
+        return Image::where('id_gallery', $this->attributes['id_gallery']);
     }
 
     public function property()

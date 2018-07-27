@@ -9,7 +9,7 @@ class Image extends Model
     public function standartAttributes()
     {
         return [
-            'id' => new Attribute(Attribute::INTEGER, false),
+            'id_image' => new Attribute(Attribute::INTEGER, false),
             'url' => new Attribute(Attribute::STRING, false),
             'url_big' => new Attribute(Attribute::STRING, false),
             'description' => new Attribute(Attribute::STRING, false),
