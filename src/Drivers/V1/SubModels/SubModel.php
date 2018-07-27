@@ -9,10 +9,21 @@ abstract class SubModel
 {
     public $customTotal = false;
     public $customGet = false;
+    public $autoData = true;
 
     public abstract static function urlFind(Model $model) : ? string;
 
     public abstract static function urlGet(Model $model) : ? string;
+
+    public static function autoData() : array
+    {
+        return [];
+    }
+
+    public static function customGet(Model $model)
+    {
+        return [];
+    }
 
     public static function customTotal($request) : int
     {
