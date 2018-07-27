@@ -74,4 +74,9 @@ class Property extends Model
     {
         return User::find($this->attributes['id_user']);
     }
+
+    public function galleries()
+    {
+        return Gallery::where('id_property', $this->attributes['id_property']);
+    }
 }
