@@ -8,6 +8,7 @@ use Wasi\SDK\Models\Model;
 abstract class SubModel
 {
     public $customTotal = false;
+    public $customGet = false;
 
     public abstract static function urlFind(Model $model) : ? string;
 
