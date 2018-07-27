@@ -5,6 +5,7 @@ namespace Wasi\SDK\Drivers\V1;
 use Wasi\SDK\Classes\Attribute;
 use Wasi\SDK\Drivers\Driver;
 use Wasi\SDK\Drivers\V1\SubModels\SubModel;
+use Wasi\SDK\Exceptions\ApiException;
 use Wasi\SDK\Models\Model;
 
 class Core implements Driver
@@ -209,7 +210,7 @@ class Core implements Driver
         $json = file_get_contents($url);
         $return = json_decode($json, true);
         if($return['status'] == Core::STATUS_ERROR) {
-            throw new \Exception($return['message']);
+            throw new ApiException($return['message']);
         }
         return $return;
     }
