@@ -32,4 +32,13 @@ class C
     const AVAILABILITY_AVAILABLE = 1;
     const AVAILABILITY_SOLD = 2;
     const AVAILABILITY_RENTED = 3;
+
+    const STRATUM_1 = 1;
+    const STRATUM_2 = 2;
+    const STRATUM_3 = 3;
+    const STRATUM_4 = 4;
+    const STRATUM_5 = 5;
+    const STRATUM_6 = 6;
+    const STRATUM_RURAL = 7;
+    const STRATUM_COMMERCIAL = 8;
 }
