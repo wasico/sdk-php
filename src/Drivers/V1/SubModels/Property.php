@@ -32,4 +32,9 @@ class Property extends SubModel
     {
         return new WrappedModel(\Wasi\SDK\Models\Object::class, 'property/price-range', true);
     }
+
+    public static function areaRange()
+    {
+        return new WrappedModel(\Wasi\SDK\Models\Object::class, 'property/area-range', true);
+    }
 }
