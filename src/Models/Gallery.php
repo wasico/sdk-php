@@ -13,4 +13,9 @@ class Gallery extends Model
             'id_property' => new Attribute(Attribute::INTEGER, false),
         ];
     }
+
+    public function property()
+    {
+        return Property::find($this->attributes['id_property']);
+    }
 }
