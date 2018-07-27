@@ -18,4 +18,9 @@ class C
     const PUBLISH_ON_MAP_DO_NOT_POST = 1;
     const PUBLISH_ON_MAP_POST_AREA = 2;
     const PUBLISH_ON_MAP_POST_EXACT_POINT = 3;
+
+    const AREA_M2 = 1;
+    const AREA_BLOCKS = 2;
+    const AREA_HECTARES = 3;
+    const AREA_VARAS = 4;
 }
