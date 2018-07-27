@@ -14,4 +14,8 @@ class C
     const STATUS_ON_PAGE_INACTIVE = 2;
     const STATUS_ON_PAGE_HIGHLIGHTED = 3;
     const STATUS_ON_PAGE_DELETED = 4;
+
+    const PUBLISH_ON_MAP_DO_NOT_POST = 1;
+    const PUBLISH_ON_MAP_POST_AREA = 2;
+    const PUBLISH_ON_MAP_POST_EXACT_POINT = 3;
 }
