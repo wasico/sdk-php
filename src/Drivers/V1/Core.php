@@ -123,8 +123,9 @@ class Core implements Driver
         $url = $model->getOrderBy() ? $url.'&order_by='.$model->getOrderBy() : $url;
         $url = $model->getOrder() ? $url.'&order='.$model->getOrder() : $url;
 
+        if($subClass && $subClass->autoData)
+            $url .= $this->addArrayToURL($model, $subClass::autoData());
         $url .= $this->addArrayToURL($model, $model->getDataArray());
-
         $url .= $this->addArrayToURL($model, $model->getWhereArray());
 
         return $url;
