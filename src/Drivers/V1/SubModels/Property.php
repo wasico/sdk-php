@@ -7,6 +7,7 @@ use Wasi\SDK\Models\Model;
 
 class Property extends SubModel
 {
+    public $autoData = true;
 
     public static function urlFind(Model $model): ? string
     {
@@ -16,6 +17,13 @@ class Property extends SubModel
     public static function urlGet(Model $model): ? string
     {
         return 'property/search';
+    }
+
+    public static function autoData(): array
+    {
+        return [
+            'short' => true,
+        ];
     }
 
     public function owners(Model $model)
