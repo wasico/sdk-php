@@ -201,7 +201,11 @@ class Core implements Driver
 
     public function get(Model $model)
     {
-        $return = $this->preGet($model);
+        $subClass = self::getSubClass($model);
+        if($subClass && $subClass->customGet)
+            $return = $subClass->customGet($model);
+        else
+            $return = $this->preGet($model);
         return is_array($return) && isset($return['elements']) ? $return['elements'] : $return;
     }
 
