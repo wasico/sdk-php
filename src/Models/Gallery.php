@@ -14,6 +14,11 @@ class Gallery extends Model
         ];
     }
 
+    public function images()
+    {
+        return Image::where('id_gallery', $this->attributes['id']);
+    }
+
     public function property()
     {
         return Property::find($this->attributes['id_property']);
