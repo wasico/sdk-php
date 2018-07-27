@@ -27,4 +27,9 @@ class Property extends SubModel
     {
         return new WrappedModel(\Wasi\SDK\Models\Property::class, 'property/highlighted');
     }
+
+    public static function priceRange()
+    {
+        return new WrappedModel(\Wasi\SDK\Models\Object::class, 'property/price-range', true);
+    }
 }
