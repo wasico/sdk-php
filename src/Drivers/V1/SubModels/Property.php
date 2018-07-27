@@ -33,7 +33,7 @@ class Property extends SubModel
 
     public static function highlighted()
     {
-        return new WrappedModel(\Wasi\SDK\Models\Property::class, 'property/highlighted');
+        return (new WrappedModel(\Wasi\SDK\Models\Property::class, 'property/highlighted'))->where('short', true);
     }
 
     public static function priceRange()
