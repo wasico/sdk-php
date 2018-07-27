@@ -5,17 +5,7 @@ namespace Wasi\SDK\Drivers\V1;
 use Wasi\SDK\Classes\Attribute;
 use Wasi\SDK\Drivers\Driver;
 use Wasi\SDK\Drivers\V1\SubModels\SubModel;
-use Wasi\SDK\Models\Banner;
-use Wasi\SDK\Models\Country;
-use Wasi\SDK\Models\Customer;
-use Wasi\SDK\Models\CustomerType;
 use Wasi\SDK\Models\Model;
-use Wasi\SDK\Models\Portal;
-use Wasi\SDK\Models\Property;
-use Wasi\SDK\Models\PropertyType;
-use Wasi\SDK\Models\Region;
-use Wasi\SDK\Models\Service;
-use Wasi\SDK\Models\User;
 
 class Core implements Driver
 {
@@ -62,7 +52,7 @@ class Core implements Driver
         $class = $arguments[0];
         $reflect = new \ReflectionClass($class);
         $interfaceClassName = "\\Wasi\\SDK\\Drivers\\V1\\SubModels\\".$reflect->getShortName();
-        return call_user_func_array("$interfaceClassName::".ucfirst($name), $arguments);
+        return call_user_func_array("$interfaceClassName::".$name, $arguments);
     }
 
     public function setIdCompany(int $id_company)
