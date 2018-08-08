@@ -7,7 +7,7 @@ use Wasi\SDK\Configuration;
 
 class Model
 {
-    private static $standardMethods = ['count', 'data', 'find', 'get', 'order', 'orderBy', 'skip', 'take', 'where'];
+    private static $standardMethods = ['count', 'data', 'find', 'first', 'get', 'order', 'orderBy', 'skip', 'take', 'where'];
 
     protected $attributes = [];
     private $data = [];
@@ -86,6 +86,12 @@ class Model
         return $class->instanceFind($id);
     }
 
+    private static function staticFirst()
+    {
+        $class = new static();
+        return $class->instanceFirst();
+    }
+
     private static function staticGet()
     {
         $class = new static();
@@ -132,6 +138,13 @@ class Model
     private function instanceFind(string $id)
     {
         return Configuration::getDriver()->find($this, $id);
+    }
+
+    private function instanceFirst()
+    {
+        $this->take = 1;
+        $return = Configuration::getDriver()->get($this);
+        return isset($return[0]) ? $return[0] : null;
     }
 
     private function instanceGet()
