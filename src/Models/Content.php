@@ -13,7 +13,7 @@ class Content extends Model
             'title' => new Attribute(Attribute::STRING, false),
             'content' => new Attribute(Attribute::STRING, false),
             'link' => new Attribute(Attribute::STRING, false),
-            'delete' => new Attribute(Attribute::BOOLEAN, false),
+            'erasable' => new Attribute(Attribute::BOOLEAN, false),
         ];
     }
 }
