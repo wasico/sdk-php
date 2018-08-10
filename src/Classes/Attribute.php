@@ -11,6 +11,7 @@ class Attribute
     const DATETIME = 4;
     const EMAIL = 5;
     const ARRAY = 6;
+    const URL = 7;
 
     private $type;
     private $editable;
