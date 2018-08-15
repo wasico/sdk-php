@@ -2,6 +2,7 @@
 
 namespace Wasi\SDK\Drivers\V1\SubModels;
 
+use Wasi\SDK\Drivers\V1\WrappedModel;
 use Wasi\SDK\Models\Model;
 
 class City extends SubModel
@@ -18,5 +19,10 @@ class City extends SubModel
         if(!isset($whereArray['id_region']))
             throw new WhereIsRequireException("Where with id_region is required");
         return 'location/cities-from-region/'.$whereArray['id_region'];
+    }
+
+    public static function withProperties()
+    {
+        return new WrappedModel(\Wasi\SDK\Models\City::class, 'location/cities-with-property/');
     }
 }
