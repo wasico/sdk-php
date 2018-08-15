@@ -5,7 +5,7 @@ namespace Wasi\SDK\Models;
 use Wasi\SDK\Classes\Attribute;
 use Wasi\SDK\Configuration;
 
-class Model
+class Model implements \JsonSerializable
 {
     private static $standardMethods = ['count', 'data', 'find', 'first', 'get', 'order', 'orderBy', 'skip', 'take', 'where'];
 
@@ -234,5 +234,17 @@ class Model
     public function getWhereArray() : array
     {
         return $this->where;
+    }
+
+    /**
+     * Specify data which should be serialized to JSON
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4.0
+     */
+    public function jsonSerialize()
+    {
+        return $this->attributes;
     }
 }
