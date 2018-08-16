@@ -107,7 +107,7 @@ class Model implements \JsonSerializable
     private static function staticTake(int $take)
     {
         $class = new static();
-        return $class->instanceSkip($take);
+        return $class->instanceTake($take);
     }
 
     private static function staticOrderBy(string $column, string $order)
