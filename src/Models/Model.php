@@ -116,7 +116,7 @@ class Model implements \JsonSerializable
         return $class->instanceOrderBy($column, $order);
     }
 
-    private static function staticWhere(string $attribute, $value) : Model
+    private static function staticWhere($attribute, $value = null) : Model
     {
         $class = new static();
         return $class->instanceWhere($attribute, $value);
@@ -171,11 +171,21 @@ class Model implements \JsonSerializable
         return $this;
     }
 
-    private function instanceWhere(string $attribute, $value) : Model
+    private function instanceWhere($attribute, $value = null) : Model
     {
-        $this->checkAttribute($attribute, $value);
-        $this->where[$attribute] = $value;
-        return $this;
+        if(is_array($attribute)) {
+            foreach ($attribute as $a)
+                if(is_array($a) && count($a) == 2) {
+                    $this->checkAttribute($a[0], $a[1]);
+                    $this->where[$a[0]] = $a[1];
+                }
+            return $this;
+        } else if(is_string($attribute)) {
+            $this->checkAttribute($attribute, $value);
+            $this->where[$attribute] = $value;
+            return $this;
+        }
+        throw new \Exception("The attribute $attribute must be a string or array");
     }
 
     /*
