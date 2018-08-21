@@ -202,7 +202,7 @@ class Model implements \JsonSerializable
         switch ($attributes[$attribute]->getType())
         {
             case Attribute::INTEGER:
-                if(!is_integer($value))
+                if(!is_integer($value) && !ctype_digit($value))
                     throw new \Exception("The attribute $attribute must be an integer");
                 break;
             case Attribute::STRING:
