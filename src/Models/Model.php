@@ -197,7 +197,7 @@ class Model implements \JsonSerializable
     public function checkAttribute(string $attribute, $value)
     {
         $attributes = $this->standartAttributes();
-        if(!isset($attributes[$attribute]))
+        if(!isset($attributes[$attribute]) || $value === null)
             return;
         switch ($attributes[$attribute]->getType())
         {
