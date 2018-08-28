@@ -34,6 +34,8 @@ Or add manually to your composer.json file for constant update
 
 ### First configuration
 
+Set your configuration only one time in execution time
+
 ```php
 \Wasi\SDK\Configuration::set([
     'v'          => 1, //API version here
