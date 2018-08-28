@@ -8,6 +8,7 @@ You can sign up for a **Wasi account** at https://wasi.co and get your **id_comp
     * [First configuration](#first-configuration)
 * [Usage](#usage)
     * [Find one element](#find-one-element)
+    * [Filter and get elements](#filter-and-get-elements)
 
 ## Requirements
 
@@ -51,5 +52,11 @@ Set your configuration only one time in execution time
 ### Find one element
 
 ```php
-$property = \Wasi\SDK\Models\Property::find(123456); //Replace 123456 with the property id
+$property = \Wasi\SDK\Models\Property::find(123456); //Replace 123456 with the id_property
+```
+
+### Filter and get elements
+
+```php
+$properties = ->where('title', 'Hotel')->get(); //use in **where** method the filters
 ```
