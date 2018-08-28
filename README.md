@@ -52,11 +52,13 @@ Set your configuration only one time in execution time
 ### Find one element
 
 ```php
-$property = \Wasi\SDK\Models\Property::find(123456); //Replace 123456 with the id_property
+#Replace 123456 with the id_property
+$property = \Wasi\SDK\Models\Property::find(123456);
 ```
 
 ### Filter and get elements
 
 ```php
-$properties = \Wasi\SDK\Models\Property::where('title', 'Hotel')->get(); //Use API filters in the 'where' method
+#Use API filters in the 'where' method
+$properties = \Wasi\SDK\Models\Property::where('title', 'Hotel')->get();
 ```
