@@ -2,11 +2,18 @@
 
 You can sign up for a Wasi account at https://wasi.co.
 
+* [Requirements](#requirements)
+* [Installation](#installation)
+    * [Composer](#composer)
+    * [First configuration](#first-configuration)
+
 ## Requirements
 
 PHP 7.1.* and later.
 
-## Composer
+## Installation
+
+###Composer
 
 You can install the bindings via [Composer](http://getcomposer.org/). Run the following command:
 
@@ -23,4 +30,14 @@ require_once('vendor/autoload.php');
 Or add manually to your composer.json file for constant update
 ```php
 "wasico/sdk-php": ">=0.0.1"
+```
+
+### First configuration
+
+```php
+\Wasi\SDK\Configuration::set([
+    'v'          => 1, //API version here
+    'id_company' => 123456, //Your id_company here
+    'wasi_token' => 'AbCd_eFgH_IjKl_MnOp', //Your WasiToken here
+]);
 ```
