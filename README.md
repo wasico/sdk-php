@@ -6,6 +6,8 @@ You can sign up for a **Wasi account** at https://wasi.co and get your **id_comp
 * [Installation](#installation)
     * [Composer](#composer)
     * [First configuration](#first-configuration)
+* [Usage](#usage)
+    * [Find one element](#find-one-element)
 
 ## Requirements
 
@@ -42,4 +44,12 @@ Set your configuration only one time in execution time
     'id_company' => 123456, //Your id_company here
     'wasi_token' => 'AbCd_eFgH_IjKl_MnOp', //Your WasiToken here
 ]);
+```
+
+## Usage
+
+### Find one element
+
+```php
+$property = \Wasi\SDK\Models\Property::find(123456); //Replace 123456 for property's id
 ```
