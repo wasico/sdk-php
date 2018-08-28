@@ -49,6 +49,8 @@ Set your configuration only one time in execution time
 
 ## Usage
 
+Use Wasi models (\Wasi\SDK\Models) for get Objects of the API
+
 ### Find one element
 
 ```php
