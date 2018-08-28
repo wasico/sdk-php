@@ -1,6 +1,6 @@
 # Wasi SDK PHP
 
-You can sign up for a Wasi account at https://wasi.co.
+You can sign up for a **Wasi account** at https://wasi.co and get your **id_company** and **wasi_token**
 
 * [Requirements](#requirements)
 * [Installation](#installation)
