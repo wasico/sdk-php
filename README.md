@@ -58,5 +58,5 @@ $property = \Wasi\SDK\Models\Property::find(123456); //Replace 123456 with the i
 ### Filter and get elements
 
 ```php
-$properties = ->where('title', 'Hotel')->get(); //use in **where** method the filters
+$properties = \Wasi\SDK\Models\Property::where('title', 'Hotel')->get(); //use in **where** method the filters
 ```
