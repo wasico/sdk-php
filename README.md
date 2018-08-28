@@ -51,5 +51,5 @@ Set your configuration only one time in execution time
 ### Find one element
 
 ```php
-$property = \Wasi\SDK\Models\Property::find(123456); //Replace 123456 for property's id
+$property = \Wasi\SDK\Models\Property::find(123456); //Replace 123456 with the property id
 ```
