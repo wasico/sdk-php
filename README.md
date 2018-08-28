@@ -13,7 +13,7 @@ PHP 7.1.* and later.
 
 ## Installation
 
-###Composer
+### Composer
 
 You can install the bindings via [Composer](http://getcomposer.org/). Run the following command:
 
