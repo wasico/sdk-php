@@ -32,13 +32,13 @@ class InterestPoint extends SubModel
         $school = [];
         $university = [];
         $restaurant = [];
-        foreach ($data->grocery_or_supermarket as $gos)
+        foreach ($data->grocery_or_supermarket ?? [] as $gos)
             $grocery_or_supermarket[] = new \Wasi\SDK\Models\InterestPoint($gos);
-        foreach ($data->school as $s)
+        foreach ($data->school ?? [] as $s)
             $school[] = new \Wasi\SDK\Models\InterestPoint($s);
-        foreach ($data->university as $u)
+        foreach ($data->university ?? [] as $u)
             $university[] = new \Wasi\SDK\Models\InterestPoint($u);
-        foreach ($data->restaurant as $r)
+        foreach ($data->restaurant ?? [] as $r)
             $restaurant[] = new \Wasi\SDK\Models\InterestPoint($r);
 
         return compact(['grocery_or_supermarket', 'school', 'university', 'restaurant']);
