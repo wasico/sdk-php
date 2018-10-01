@@ -33,9 +33,9 @@ class Core implements Driver
             }
             $this->setIdCompany($params['id_company']);
             $this->setWasiToken($params['wasi_token']);
-            if (isset($params['base_url']))
-                $this->setBaseURL($params['base_url']);
         }
+        if (isset($params['base_url']))
+            $this->setBaseURL($params['base_url']);
     }
 
     public function __call($name, $arguments)
@@ -210,13 +210,18 @@ class Core implements Driver
         return is_array($return) && isset($return['elements']) ? $return['elements'] : $return;
     }
 
-    public static function request($url)
+    public static function request($url, $attempt = 0)
     {
-        $json = file_get_contents($url);
-        $return = json_decode($json, true);
-        if($return['status'] == Core::STATUS_ERROR) {
-            throw new ApiException($return['message']);
+        if(@$json = file_get_contents($url)) {
+            $return = json_decode($json, true);
+            if ($return['status'] == Core::STATUS_ERROR) {
+                throw new ApiException($return['message']);
+            }
+            return $return;
+        } else {
+            if($attempt < 3)
+                return self::request($url, ++$attempt);
+            throw new \Exception('Could not connect to the API');
         }
-        return $return;
     }
 }
