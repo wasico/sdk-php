@@ -257,4 +257,17 @@ class Model implements \JsonSerializable
     {
         return $this->attributes;
     }
+
+    public function getKeyString()
+    {
+        return json_encode([
+            'attributes' => $this->attributes,
+            'data' => $this->data,
+            'where' => $this->where,
+            'skip' => $this->skip,
+            'take' => $this->take,
+            'order' => $this->order,
+            'orderBy' => $this->orderBy,
+        ]);
+    }
 }
