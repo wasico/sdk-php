@@ -20,6 +20,10 @@ class Core implements Driver
     private $wasi_token;
     private $baseURL = 'https://api.wasi.co/v1/';
 
+    public static $coreCache = [];
+
+    public static $totalRequests = 0;
+
     private static $subClasses = [];
 
     function __construct(array $params = [])
@@ -36,6 +40,18 @@ class Core implements Driver
         }
         if (isset($params['base_url']))
             $this->setBaseURL($params['base_url']);
+    }
+
+    public static function getCoreCache($key) {
+        if(isset(static::$coreCache[$key]))
+            return static::$coreCache[$key];
+        return null;
+    }
+
+    private function setCoreCache($key, $value) {
+        if(count(static::$coreCache)<100)
+            static::$coreCache[$key] = $value;
+        return $value;
     }
 
     public function __call($name, $arguments)
@@ -165,6 +181,9 @@ class Core implements Driver
 
     public function preGet(Model $model)
     {
+        $modelKeyString = $model->getKeyString();
+        if($cache = static::getCoreCache($modelKeyString))
+            return $cache;
         $class = get_class($model);
         $subClass = self::getSubClass($model);
         $objectGet = false;
@@ -188,10 +207,10 @@ class Core implements Driver
             $total = $subClass->customTotal($request);
         else
             $total = isset($request['total']) ? (int) $request['total'] : count($elements);
-        return [
+        return static::setCoreCache($modelKeyString, [
             'total' => $total,
             'elements' => $elements,
-        ];
+        ]);
     }
 
     public function count(Model $model)
@@ -210,10 +229,16 @@ class Core implements Driver
         return is_array($return) && isset($return['elements']) ? $return['elements'] : $return;
     }
 
+    public static function getTotalRequests() {
+        return static::$totalRequests;
+    }
+
     public static function request($url, $attempt = 0)
     {
+        //die($url);
         if(@$json = file_get_contents($url)) {
             $return = json_decode($json, true);
+            static::$totalRequests++;
             if ($return['status'] == Core::STATUS_ERROR) {
                 throw new ApiException($return['message']);
             }
