@@ -261,6 +261,7 @@ class Model implements \JsonSerializable
     public function getKeyString()
     {
         return json_encode([
+            'id_company' => Configuration::getDriver()->getIdCompany(),
             'attributes' => $this->attributes,
             'data' => $this->data,
             'where' => $this->where,
