@@ -262,6 +262,7 @@ class Model implements \JsonSerializable
     {
         return json_encode([
             'id_company' => Configuration::getDriver()->getIdCompany(),
+            'class' => get_class($this),
             'attributes' => $this->attributes,
             'data' => $this->data,
             'where' => $this->where,

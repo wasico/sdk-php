@@ -197,7 +197,7 @@ class Core implements Driver
         $request = static::request($url);
 
         if($objectGet)
-            return new $class($request);
+            return static::setCoreCache($modelKeyString, new $class($request));
 
         $elements = [];
         foreach ($request as $key => $value)
