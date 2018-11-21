@@ -4,6 +4,7 @@ namespace Wasi\SDK\Models;
 
 use Wasi\SDK\Classes\Attribute;
 use Wasi\SDK\Configuration;
+use Wasi\SDK\Drivers\V1\WrappedModel;
 
 class Model implements \JsonSerializable
 {
@@ -260,9 +261,13 @@ class Model implements \JsonSerializable
 
     public function getKeyString()
     {
+        if($this instanceof WrappedModel)
+            $class = get_class($this)."-:-".$this->getWrappedModel();
+        else
+            $class = get_class($this);
         return json_encode([
             'id_company' => Configuration::getDriver()->getIdCompany(),
-            'class' => get_class($this),
+            'class' => $class,
             'attributes' => $this->attributes,
             'data' => $this->data,
             'where' => $this->where,
