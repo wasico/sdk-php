@@ -19,6 +19,7 @@ class Core implements Driver
     private $id_company;
     private $wasi_token;
     private $baseURL = 'https://api.wasi.co/v1/';
+    private $globalParams = [];
 
     public static $coreCache = [];
 
@@ -38,8 +39,12 @@ class Core implements Driver
             $this->setIdCompany($params['id_company']);
             $this->setWasiToken($params['wasi_token']);
         }
+
         if (isset($params['base_url']))
             $this->setBaseURL($params['base_url']);
+
+        if (isset($params['global_params']))
+            $this->globalParams = $params['global_params'];
     }
 
     public static function getCoreCache($key) {
@@ -132,6 +137,8 @@ class Core implements Driver
         if($prePath == null)
             throw new \Exception("$urlType method does not supported by ".get_class($model)." class");
         $url = $this->getBaseURL()."$prePath$path?source=sdk";
+        $url .= $this->addArrayToURL(null, $this->globalParams);
+
         if($this->id_company && $this->wasi_token)
             $url = "$url&id_company={$this->id_company}&wasi_token={$this->wasi_token}";
         $url = $model->getSkip() ? $url.'&skip='.$model->getSkip() : $url;
@@ -147,9 +154,9 @@ class Core implements Driver
         return $url;
     }
 
-    public function addArrayToURL(Model $model, array $data) : string
+    public function addArrayToURL(Model $model = null, array $data) : string
     {
-        $standartAttributes = $model->standartAttributes();
+        $standartAttributes = $model ? $model->standartAttributes() : null;
         $url = '';
         foreach ($data as $key => $value) {
             if(isset($standartAttributes[$key])) {
