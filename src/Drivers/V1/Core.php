@@ -251,7 +251,7 @@ class Core implements Driver
             }
             return $return;
         } else {
-            if($attempt < 3)
+            if($attempt < 1)
                 return self::request($url, ++$attempt);
             throw new \Exception('Could not connect to the API');
         }
