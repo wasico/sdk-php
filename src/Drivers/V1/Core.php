@@ -270,7 +270,7 @@ class Core implements Driver
                     $url = str_replace(self::getBaseURL(), self::getBaseURLAlternative(), $url);
                 return self::request($url, ++$attempt);
             }
-            throw new \Exception('Could not connect to the API');
+            throw new \Exception("Could not connect to the API, URL: $url");
         }
     }
 }
