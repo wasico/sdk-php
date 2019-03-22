@@ -18,7 +18,8 @@ class Core implements Driver
 
     private $id_company;
     private $wasi_token;
-    private $baseURL = 'https://api.wasi.co/v1/';
+    static private $baseURL = 'https://api.wasi.co/v1/';
+    static private $baseURLAlternative = null;
     private $globalParams = [];
 
     public static $coreCache = [];
@@ -42,6 +43,9 @@ class Core implements Driver
 
         if (isset($params['base_url']))
             $this->setBaseURL($params['base_url']);
+
+        if (isset($params['base_url_alternative']))
+            $this->setBaseURLAlternative($params['base_url_alternative']);
 
         if (isset($params['global_params']))
             $this->globalParams = $params['global_params'];
@@ -97,14 +101,24 @@ class Core implements Driver
         return $this->wasi_token;
     }
 
-    public function setBaseURL(string $basePath)
+    public static function setBaseURL(string $basePath)
     {
-        $this->baseURL = $basePath;
+        self::$baseURL = $basePath;
     }
 
-    public function getBaseURL() : string
+    public static function getBaseURL() : string
     {
-        return $this->baseURL;
+        return self::$baseURL;
+    }
+
+    public static function setBaseURLAlternative(string $basePath)
+    {
+        self::$baseURLAlternative = $basePath;
+    }
+
+    public static function getBaseURLAlternative()
+    {
+        return self::$baseURLAlternative;
     }
 
     public static function getSubClass(Model $model): ? SubModel
@@ -251,8 +265,11 @@ class Core implements Driver
             }
             return $return;
         } else {
-            if($attempt < 1)
+            if($attempt < 1) {
+                if(self::getBaseURLAlternative())
+                    $url = str_replace(self::getBaseURL(), self::getBaseURLAlternative(), $url);
                 return self::request($url, ++$attempt);
+            }
             throw new \Exception('Could not connect to the API');
         }
     }
