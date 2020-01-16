@@ -16,7 +16,7 @@ class Attribute
     private $type;
     private $editable;
 
-    public function __construct(int $type, bool $editable = false)
+    public function __construct(int $type, bool $editable = true)
     {
         $this->type = $type;
         $this->editable = $editable;
@@ -25,5 +25,10 @@ class Attribute
     public function getType() : int
     {
         return $this->type;
+    }
+
+    public function isEditable() : bool
+    {
+        return $this->editable;
     }
 }
