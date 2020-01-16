@@ -6,12 +6,15 @@ use Wasi\SDK\Classes\Attribute;
 
 class Customer extends Model
 {
+    protected $idKey = 'id_client';
+
     public function standartAttributes()
     {
         return [
             'id_client'        => new Attribute(Attribute::INTEGER, false),
             'id_user'          => new Attribute(Attribute::INTEGER),
             'id_client_type'   => new Attribute(Attribute::INTEGER),
+            'client_type_label' => new Attribute(Attribute::STRING, false),
             'id_country'       => new Attribute(Attribute::INTEGER),
             'country_label'    => new Attribute(Attribute::STRING, false),
             'id_region'        => new Attribute(Attribute::INTEGER),
