@@ -15,6 +15,7 @@ class Core implements Driver
     const URL_GET = 'Get';
     const URL_FIND = 'Find';
     const URL_UPDATE = 'Update';
+    const URL_CREATE = 'Create';
     const URL_SPECIAL =  'Special';
 
     private $id_company;
@@ -147,6 +148,9 @@ class Core implements Driver
             case self::URL_UPDATE:
                 $prePath = $subClass::urlUpdate($model);
                 break;
+            case self::URL_CREATE:
+                $prePath = $subClass::urlCreate($model);
+                break;
             default:
                 $prePath = $path;
                 $path = '';
@@ -258,7 +262,14 @@ class Core implements Driver
     public function update(Model $model) : bool
     {
         $url = self::url($model, $model->{$model->getIdKey()}, self::URL_UPDATE);
-        $request = static::request($url);
+        static::request($url);
+        return true;
+    }
+
+    public function create(Model $model) : bool
+    {
+        $url = self::url($model, '', self::URL_CREATE);
+        static::request($url);
         return true;
     }
 
