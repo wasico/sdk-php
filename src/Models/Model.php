@@ -260,6 +260,15 @@ class Model implements \JsonSerializable
         return $this->where;
     }
 
+    public function getChangedArray() : array
+    {
+        $return = [];
+        foreach ($this->changed as $c) {
+            $return[$c] = $this->attributes[$c];
+        }
+        return $return;
+    }
+
     public function save()
     {
         if($this->{$this->getIdKey()} != null) {
