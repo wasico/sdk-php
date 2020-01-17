@@ -274,7 +274,8 @@ class Model implements \JsonSerializable
         if($this->{$this->getIdKey()} != null) {
             return Configuration::getDriver()->update($this);
         } else {
-            return Configuration::getDriver()->create($this);
+            $return = Configuration::getDriver()->create($this);
+            $this->attributes[$this->getIdKey()] = $return->{$this->getIdKey()};
         }
     }
 
