@@ -266,11 +266,12 @@ class Core implements Driver
         return true;
     }
 
-    public function create(Model $model) : bool
+    public function create(Model $model) : Model
     {
+        $class = get_class($model);
         $url = self::url($model, '', self::URL_CREATE);
-        static::request($url);
-        return true;
+        $request = static::request($url);
+        return new $class($request);
     }
 
     public static function getTotalRequests() {
