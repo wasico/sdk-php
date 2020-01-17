@@ -16,4 +16,14 @@ class Customer extends SubModel
     {
         return 'client/search';
     }
+
+    public static function urlCreate(Model $model): ?string
+    {
+        return 'client/add';
+    }
+
+    public static function urlUpdate(Model $model): ?string
+    {
+        return 'client/update/';
+    }
 }

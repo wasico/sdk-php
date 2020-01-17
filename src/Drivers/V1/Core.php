@@ -14,6 +14,8 @@ class Core implements Driver
     const STATUS_ERROR = 'error';
     const URL_GET = 'Get';
     const URL_FIND = 'Find';
+    const URL_UPDATE = 'Update';
+    const URL_CREATE = 'Create';
     const URL_SPECIAL =  'Special';
 
     private $id_company;
@@ -143,6 +145,12 @@ class Core implements Driver
             case self::URL_GET:
                 $prePath = $subClass::urlGet($model);
                 break;
+            case self::URL_UPDATE:
+                $prePath = $subClass::urlUpdate($model);
+                break;
+            case self::URL_CREATE:
+                $prePath = $subClass::urlCreate($model);
+                break;
             default:
                 $prePath = $path;
                 $path = '';
@@ -164,6 +172,7 @@ class Core implements Driver
             $url .= $this->addArrayToURL($model, $subClass::autoData());
         $url .= $this->addArrayToURL($model, $model->getDataArray());
         $url .= $this->addArrayToURL($model, $model->getWhereArray());
+        $url .= $this->addArrayToURL($model, $model->getChangedArray());
 
         return $url;
     }
@@ -248,6 +257,20 @@ class Core implements Driver
         else
             $return = $this->preGet($model);
         return is_array($return) && isset($return['elements']) ? $return['elements'] : $return;
+    }
+
+    public function update(Model $model) : bool
+    {
+        $url = self::url($model, $model->{$model->getIdKey()}, self::URL_UPDATE);
+        static::request($url);
+        return true;
+    }
+
+    public function create(Model $model) : bool
+    {
+        $url = self::url($model, '', self::URL_CREATE);
+        static::request($url);
+        return true;
     }
 
     public static function getTotalRequests() {

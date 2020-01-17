@@ -15,6 +15,16 @@ abstract class SubModel
 
     public abstract static function urlGet(Model $model) : ? string;
 
+    public static function urlUpdate(Model $model): ?string
+    {
+        return null;
+    }
+
+    public static function urlCreate(Model $model): ?string
+    {
+        return null;
+    }
+
     public static function autoData() : array
     {
         return [];

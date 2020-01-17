@@ -12,11 +12,13 @@ class Model implements \JsonSerializable
 
     protected $attributes = [];
     private $data = [];
+    private $changed = [];
     private $where = [];
     private $skip = null;
     private $take = null;
     private $order = null;
     private $orderBy = null;
+    protected $idKey = null;
 
     public function __construct(array $attributes = [])
     {
@@ -26,6 +28,11 @@ class Model implements \JsonSerializable
     public function standartAttributes()
     {
         return [];
+    }
+
+    public function getIdKey()
+    {
+        return $this->idKey;
     }
 
     /*
@@ -61,6 +68,7 @@ class Model implements \JsonSerializable
     {
         $this->checkAttribute($name, $value);
         $this->attributes[$name] = $value;
+        $this->changed[] = $name;
     }
 
     /*
@@ -200,6 +208,11 @@ class Model implements \JsonSerializable
         $attributes = $this->standartAttributes();
         if(!isset($attributes[$attribute]) || $value === null)
             return;
+
+        if(!$attributes[$attribute]->isEditable()) {
+            throw new \Exception("The attribute $attribute is not editable");
+        }
+
         switch ($attributes[$attribute]->getType())
         {
             case Attribute::INTEGER:
@@ -245,6 +258,24 @@ class Model implements \JsonSerializable
     public function getWhereArray() : array
     {
         return $this->where;
+    }
+
+    public function getChangedArray() : array
+    {
+        $return = [];
+        foreach ($this->changed as $c) {
+            $return[$c] = $this->attributes[$c];
+        }
+        return $return;
+    }
+
+    public function save()
+    {
+        if($this->{$this->getIdKey()} != null) {
+            return Configuration::getDriver()->update($this);
+        } else {
+            return Configuration::getDriver()->create($this);
+        }
     }
 
     /**
