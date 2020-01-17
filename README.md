@@ -64,3 +64,26 @@ $property = \Wasi\SDK\Models\Property::find(123456);
 #Use API filters in the 'where' method
 $properties = \Wasi\SDK\Models\Property::where('title', 'Hotel')->get();
 ```
+
+### Create an element
+
+```php
+$customer = new \Wasi\SDK\Models\Customer();
+$customer->id_user = 123;
+$customer->id_country = 1;
+$customer->id_region = 26;
+$customer->id_city = 63;
+$customer->first_name = "Jose W";
+$customer->save()
+#Now you can get id_client:
+$id_client = $customer->id_client;
+
+```
+
+### Update an element
+
+```php
+$customer = \Wasi\SDK\Models\Customer::find(4321);
+$customer->last_name = 'Capera';
+$customer->save()
+```
