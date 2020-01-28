@@ -185,12 +185,12 @@ class Model implements \JsonSerializable
         if(is_array($attribute)) {
             foreach ($attribute as $a)
                 if(is_array($a) && count($a) == 2) {
-                    $this->checkAttribute($a[0], $a[1]);
+                    $this->checkAttribute($a[0], $a[1], true);
                     $this->where[$a[0]] = $a[1];
                 }
             return $this;
         } else if(is_string($attribute)) {
-            $this->checkAttribute($attribute, $value);
+            $this->checkAttribute($attribute, $value, true);
             $this->where[$attribute] = $value;
             return $this;
         }
@@ -203,13 +203,13 @@ class Model implements \JsonSerializable
     |--------------------------------------------------------------------------
     */
 
-    public function checkAttribute(string $attribute, $value)
+    public function checkAttribute(string $attribute, $value, $passEditable = false)
     {
         $attributes = $this->standartAttributes();
         if(!isset($attributes[$attribute]) || $value === null)
             return;
 
-        if(!$attributes[$attribute]->isEditable()) {
+        if(!$passEditable && !$attributes[$attribute]->isEditable()) {
             throw new \Exception("The attribute $attribute is not editable");
         }
 
