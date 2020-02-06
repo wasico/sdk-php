@@ -20,6 +20,8 @@ class Core implements Driver
 
     private $id_company;
     private $wasi_token;
+    private $id_group;
+    private $group_token;
     static private $baseURL = 'https://api.wasi.co/v1/';
     static private $baseURLAlternative = null;
     private $globalParams = [];
@@ -36,11 +38,19 @@ class Core implements Driver
             if (!isset($params['id_company'])) {
                 throw new \Exception("id_company is required");
             }
-            if (!isset($params['wasi_token'])) {
+            $this->setIdCompany($params['id_company']);
+            if (isset($params['id_group']) && $params['id_group']) {
+                if (!isset($params['group_token'])) {
+                    throw new \Exception("group_token is required when id_group is set");
+                }
+                $this->setIdGroup($params['id_group']);
+                $this->setGroupToken($params['group_token']);
+            } else if (!isset($params['wasi_token'])) {
                 throw new \Exception("wasi_token is required");
             }
-            $this->setIdCompany($params['id_company']);
-            $this->setWasiToken($params['wasi_token']);
+
+            if(isset($params['wasi_token']))
+                $this->setWasiToken($params['wasi_token']);
         }
 
         if (isset($params['base_url']))
@@ -91,6 +101,26 @@ class Core implements Driver
     public function getIdCompany() : int
     {
         return $this->id_company;
+    }
+
+    public function setIdGroup(int $id_group)
+    {
+        $this->id_group = $id_group;
+    }
+
+    public function getIdGroup() : int
+    {
+        return $this->id_group;
+    }
+
+    public function setGroupToken(string $group_token)
+    {
+        $this->group_token = $group_token;
+    }
+
+    public function getGroupToken() : string
+    {
+        return $this->group_token;
     }
 
     public function setWasiToken(string $wasi_token)
@@ -161,8 +191,12 @@ class Core implements Driver
         $url = $this->getBaseURL()."$prePath$path?source=sdk";
         $url .= $this->addArrayToURL(null, $this->globalParams);
 
-        if($this->id_company && $this->wasi_token)
-            $url = "$url&id_company={$this->id_company}&wasi_token={$this->wasi_token}";
+        if ($this->id_company)
+            $url = "$url&id_company={$this->id_company}";
+        if ($this->wasi_token)
+            $url = "$url&wasi_token={$this->wasi_token}";
+        if ($this->id_group && $this->group_token)
+            $url = "$url&id_group={$this->id_group}&group_token={$this->group_token}";
         $url = $model->getSkip() ? $url.'&skip='.$model->getSkip() : $url;
         $url = $model->getTake() ? $url.'&take='.$model->getTake() : $url;
         $url = $model->getOrderBy() ? $url.'&order_by='.$model->getOrderBy() : $url;
