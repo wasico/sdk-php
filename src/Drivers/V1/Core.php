@@ -315,8 +315,36 @@ class Core implements Driver
     public static function request($url, $attempt = 0)
     {
         //die($url);
-        if(@$json = file_get_contents($url)) {
+        $headerArray = [
+            'Content-Type: application/json',
+            'Accept: application/json'
+        ];
+
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 60);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET' );
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headerArray);
+        $status= false;
+        $responseString = curl_exec($curl);
+       if (!curl_errno($curl)) {
+            switch ($http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE)) {
+                case 200:  # OK
+                $status = true;
+                break;
+                default:
+                throw new \Exception("Could not connect to the API, CODE:". $http_code);
+            }
+        }else{
+            throw new \Exception("Could not connect to the API, Errno:". curl_errno($curl) . ' - Error: '. curl_error($curl));
+        }
+        curl_close($curl);
+
+        if(($json = $responseString) && $status) {
             $return = json_decode($json, true);
+
             static::$totalRequests++;
             if ($return['status'] == Core::STATUS_ERROR) {
                 throw new ApiException($return['message']);
